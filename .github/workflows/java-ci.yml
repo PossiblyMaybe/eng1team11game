@@ -1,0 +1,25 @@
+name: Java CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Maven
+        if: ${{ hashFiles('**/pom.xml') != '' }}
+        run: mvn -B -e -DskipTests=false test
+      - name: Gradle
+        if: ${{ hashFiles('**/build.gradle*') != '' }}
+        run: ./gradlew test
+      - name: Fail if no build tool
+        if: ${{ hashFiles('**/pom.xml') == '' && hashFiles('**/build.gradle*') == '' }}
+        run: |
+          echo "No Maven or Gradle files found."
+          exit 1
