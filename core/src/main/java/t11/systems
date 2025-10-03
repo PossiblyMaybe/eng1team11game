@@ -1,0 +1,30 @@
+package t11.systems;
+
+import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+public class TimeSystem extends EntitySystem {
+    private float timeLeft = 300f;
+    private boolean paused = false;
+    private final SpriteBatch batch = new SpriteBatch();
+    private final BitmapFont font = new BitmapFont();
+
+    @Override public void update(float delta) {
+        if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) paused = !paused;
+
+        if (!paused && timeLeft > 0f) {
+            timeLeft -= delta;
+            if (timeLeft <= 0f) {
+                timeLeft = 0f;
+                Gdx.app.log("Time", "Time up — end run");
+            }
+        }
+        batch.begin();
+        font.draw(batch, "Time: " + (int) timeLeft, 10, Gdx.graphics.getHeight() - 10);
+        if (paused) font.draw(batch, "(Paused)", 10, Gdx.graphics.getHeight() - 30);
+        batch.end();
+    }
+}
