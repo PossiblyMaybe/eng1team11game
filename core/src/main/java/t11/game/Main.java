@@ -12,7 +12,7 @@ public class Main extends Game {
 	private double timeElapsed;
 	
 	private Screen openingLogos;
-
+	private Screen mainMenu;
 	private ScreenDispatch test;
 	
 	@Override
@@ -21,10 +21,11 @@ public class Main extends Game {
 		
 		String[] pngs = {"libgdx.png","teamLogo.png"};
 		openingLogos = new LogoScreen(cache, pngs);
+		mainMenu = new MainMenu();
 
-		
 		test = new ScreenDispatch();
 		test.addScreen(openingLogos);
+		test.addScreen(mainMenu);
 
 		this.setScreen(openingLogos);
 		
@@ -33,11 +34,17 @@ public class Main extends Game {
     	@Override
     	public void render() {
 		super.render();
+		this.timeElapsed += Gdx.graphics.getDeltaTime();
+		if (this.timeElapsed > 10){
+			this.setScreen(this.test.toNextScreen());
+		}
 	}
 
     	@Override
     	public void dispose() {
         	cache.dispose();
-    	}
+    		openingLogos.dispose();
+		mainMenu.dispose();
+	}
 
 }

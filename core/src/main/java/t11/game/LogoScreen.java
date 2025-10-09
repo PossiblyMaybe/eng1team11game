@@ -7,11 +7,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.ArrayList;
 
 public class LogoScreen extends ScreenAdapter{
 	private OrthographicCamera cam;
+	private FitViewport vp;
+
 
 	private SpriteCache cache;
 	private ArrayList<Integer> cacheIDs;
@@ -27,12 +30,14 @@ public class LogoScreen extends ScreenAdapter{
 		for (String p : texPaths){
 			this.cache.beginCache();
 			tex = new Texture(p);
-			this.cache.add(tex,0,0);
+			this.cache.add(tex,-tex.getWidth()/2,-tex.getHeight()/2);
 			this.cacheIDs.add(this.cache.endCache());
 		}
 		
 		this.cam = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-		this.cam.position.set(Gdx.graphics.getWidth()/ 2.0f, Gdx.graphics.getHeight() /2.0f, 0);
+		this.vp = new FitViewport(800,600,this.cam);
+		//this.cam.position.set(Gdx.graphics.getWidth()/ 2.0f, Gdx.graphics.getHeight() /2.0f, 0);
+		
 	}
 
 	@Override
@@ -64,6 +69,11 @@ public class LogoScreen extends ScreenAdapter{
 			this.currentCacheIndex++;
 		}
 		//TODO: add the fading of the logos maybe	
+	}
+
+	@Override
+	public void resize(int width, int height){
+		this.vp.update(width,height);
 	}
 }
 
