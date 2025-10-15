@@ -8,22 +8,41 @@ import java.util.ArrayList;
 
 
 public class ScreenDispatch {
-	private ArrayList<Screen> screens;
-	private int currentIndex;
+	private ArrayList<IScreen> screens;
+	private int currentIndex = 0;
+    private int size = 0;
 
-	public ScreenDispatch(){
-		this.screens = new ArrayList<Screen>();
+	public ScreenDispatch(IScreen screen){
+        screens = new ArrayList<IScreen>();
+        addScreen(screen);
+        screens.get(0).show();
 	}
 
-	public void addScreen(Screen screen){
+	public void addScreen(IScreen screen){
 		screens.add(screen);
+        size += 1;
 	}
 
-	public Screen toNextScreen(){
+	public IScreen toNextScreen(){
 		if (currentIndex + 1 >= screens.size()){
-			return this.screens.get(currentIndex); //TODO: make this throw an exception
+			return screens.get(currentIndex); //TODO: make this throw an exception
 		}
 		currentIndex++;
-		return this.screens.get(currentIndex);
+		return screens.get(currentIndex);
 	}
+
+    public boolean gotoScreen(int index){
+        if (index < 0 || index >= size)
+            return false;
+        screens.get(currentIndex).dispose();
+        currentIndex = index;
+        screens.get(index).show();
+        return true;
+    }
+
+    public void drawScreen(){
+        //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        //Make an interface so this doesn't shit itself
+        screens.get(currentIndex).draw();
+    }
 }
