@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
 
-public class TestScreen extends ScreenAdapter implements IScreen{
+public class TestScreen extends ScreenAdapter{
 
 
 
@@ -30,11 +30,14 @@ public class TestScreen extends ScreenAdapter implements IScreen{
         scene.add(coin1);
     }
 
-    public void draw(){
+    @Override
+    public void render(float delta){
         //draws all of the objects
-        for (int i = 0; i < scene.size(); i++){
+        batch.begin();
+        for (int i = 0; i < scene.size(); i++){ //so this doesn't draw it for some reason??? idk why
             batch.draw(scene.get(i).getSprite(), scene.get(i).getPos().x, scene.get(i).getPos().y);
         }
+        batch.end();
     }
 
 

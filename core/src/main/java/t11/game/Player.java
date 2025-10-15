@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 
 public class Player implements GameEntity{
-    public final Vector2 transform = new Vector2(0,0);
+    public final Vector2 position = new Vector2(0,0);
     private int zIndex = 0;
     private final Vector2 scale = new Vector2(  1.5f,1.5f);
     private float rotation = 0;
@@ -31,11 +31,11 @@ public class Player implements GameEntity{
         */
 
         if (dash) {
-            transform.x += direction.x * DASHMULT * SPEED * delta;
-            transform.y += direction.y * DASHMULT * SPEED * delta;
+            position.x += direction.x * DASHMULT * SPEED * delta;
+            position.y += direction.y * DASHMULT * SPEED * delta;
         } else {
-            transform.x += direction.x * SPEED * delta;
-            transform.y += direction.y * SPEED * delta;
+            position.x += direction.x * SPEED * delta;
+            position.y += direction.y * SPEED * delta;
         }
     }
 
@@ -48,7 +48,7 @@ public class Player implements GameEntity{
     @Override
     public Vector2 getPos()
     {
-        return transform;
+        return position;
     }
 
     @Override

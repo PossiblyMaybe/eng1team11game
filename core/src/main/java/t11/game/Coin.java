@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 public class Coin implements GameEntity{
-    public final Vector2 transform = new Vector2();
+    public final Vector2 position = new Vector2();
     private final Vector2 scale = new Vector2(1,1);
     private float rotation = 0;
     private Texture sprite = new Texture("coin.png");
@@ -12,8 +12,8 @@ public class Coin implements GameEntity{
     //it's a coin :)
 
     public Coin(float x, float y){
-        transform.x = x;
-        transform.y = y;
+        position.x = x;
+        position.y = y;
     }
 
     public void collect()
@@ -29,7 +29,7 @@ public class Coin implements GameEntity{
 
     @Override
     public Vector2 getPos() {
-        return transform;
+        return position;
     }
 
     @Override

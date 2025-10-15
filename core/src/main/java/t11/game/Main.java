@@ -51,6 +51,8 @@ public class Main extends Game {
         //an algorithm to select a bunch of screens
         screens = new ScreenDispatch(new TestScreen(batch));
 
+        setScreen(screens.getScreen());
+
 	}
 
     @Override
@@ -63,6 +65,7 @@ public class Main extends Game {
 
         input();
         physics();
+        super.render(); //renders the current screen
         draw();
 	}
 
@@ -130,8 +133,6 @@ public class Main extends Game {
         //spritesheets work
         //batch.draw(texture, x, y, originX, originY, width, height, scaleX, scaleY, rotation, 0, 0, texWidth, texHeight, false, false);
         batch.begin();
-        //draws the current screen
-        screens.drawScreen();
         //draws the player on top, this should later be changed to implement a Z indexing
         batch.draw(player.getSprite(), player.getPos().x, player.getPos().y, 0, 0, 32, 32, player.getScale().x, player.getScale().y, player.getRotation(), 0, 0, 32, 32, false, false);
         batch.end();
