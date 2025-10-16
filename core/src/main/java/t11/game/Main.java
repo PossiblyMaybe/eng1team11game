@@ -65,7 +65,6 @@ public class Main extends Game {
 
         input();
         physics();
-        super.render(); //renders the current screen
         draw();
 	}
 
