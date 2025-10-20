@@ -44,18 +44,34 @@ public class TileMapJson {
                 }
             }
 
-            // walls from collision rects
-            for (JsonValue rc : room.get("collision").get("rects")) {
-                int rx = rc.getInt("x"), ry = rc.getInt("y");
-                int rw = rc.getInt("w"), rh = rc.getInt("h");
-                for (int gx = rx; gx < rx + rw; gx++) {
-                    for (int gy = ry; gy < ry + rh; gy++) {
-                        int storeY = gy; // flip if needed -> height - 1 - gy
-                        tiles[gx][storeY] =
-                                new Tile(wallTex, true, gx * TILE_SIZE, storeY * TILE_SIZE);
+            // --- prefer grid if present ---
+            if (room.has("grid")) {
+                JsonValue grid = room.get("grid");
+                // grid is written top->down; convert to bottom-left origin
+                for (int row = 0; row < grid.size; row++) {
+                    String line = grid.getString(row);
+                    int y = height - 1 - row; // flip top-down to bottom-left
+                    for (int x = 0; x < Math.min(width, line.length()); x++) {
+                        char c = line.charAt(x);
+                        if (c == '#') {
+                            tiles[x][y] = new Tile(wallTex, true, x * TILE_SIZE, y * TILE_SIZE);
+                        }
+                    }
+                }
+            } else {
+                // fallback: old rects format (backward compatible)
+                for (JsonValue rc : room.get("collision").get("rects")) {
+                    int rx = rc.getInt("x"), ry = rc.getInt("y");
+                    int rw = rc.getInt("w"), rh = rc.getInt("h");
+                    for (int gx = rx; gx < rx + rw; gx++) {
+                        for (int gy = ry; gy < ry + rh; gy++) {
+                            int storeY = gy; // keep current convention
+                            tiles[gx][storeY] = new Tile(wallTex, true, gx * TILE_SIZE, storeY * TILE_SIZE);
+                        }
                     }
                 }
             }
+
         } catch (Exception e) {
             Gdx.app.error("TileMapJson", "Failed to load " + jsonPath, e);
             width = height = 1;
