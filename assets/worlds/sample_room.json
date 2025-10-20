@@ -1,0 +1,20 @@
+{
+  "formatVersion": "1.0",
+  "tileSize": 32,
+  "origin": "bottom-left",
+  "textures": { "wall": "libgdx.png" },
+  "rooms": [
+    {
+      "id": "room_start",
+      "size": { "w": 10, "h": 8 },
+      "collision": {
+        "rects": [
+          { "id": "south", "x": 0,  "y": 0,  "w": 10, "h": 1 },
+          { "id": "north", "x": 0,  "y": 7,  "w": 10, "h": 1 },
+          { "id": "west",  "x": 0,  "y": 0,  "w": 1,  "h": 8 },
+          { "id": "east",  "x": 9,  "y": 0,  "w": 1,  "h": 8 }
+        ]
+      }
+    }
+  ]
+}
