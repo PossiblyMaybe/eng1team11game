@@ -37,8 +37,6 @@ public class Main extends Game {
 
     public Player player;
 
-    private TileMap tilemap;
-
 	@Override
 	public void create() {
         batch = new SpriteBatch();
@@ -52,11 +50,8 @@ public class Main extends Game {
         //Adds the test screen to the list of screens, this can later be replaced with
         //an algorithm to select a bunch of screens
         screens = new ScreenDispatch(new TestScreen(batch));
-        screens.addScreen(new TestScreen2(batch));
 
         setScreen(screens.getScreen());
-
-        tilemap = new TileMap("testMap.csv");
 
 	}
 
@@ -70,10 +65,6 @@ public class Main extends Game {
 
         input();
         physics();
-        //clears the screen before drawing
-        Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        tilemap.render(batch);
         super.render(); //renders the current screen
         draw();
 	}
@@ -125,18 +116,6 @@ public class Main extends Game {
         }
         player.move(direction, isDashing, delta);
         dashCooldown -= delta;
-
-        if (Gdx.input.isKeyPressed(Input.Keys.T))
-        {
-            screens.gotoScreen(0);
-            setScreen(screens.getScreen());
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.Y))
-        {
-            screens.gotoScreen(1);
-            setScreen(screens.getScreen());
-        }
-
     }
 
     public void physics(){
@@ -144,6 +123,10 @@ public class Main extends Game {
     }
 
     public void draw(){
+        //clears the screen before drawing
+        Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         //.draw() can do many things, the origins lets you draw from a different place that isn't 0,0 relative
         //to the texture, width and height let you crow textures, rotation is self explanatory
         //and the rest are for drawing certain sections of a texture which can be used to make
