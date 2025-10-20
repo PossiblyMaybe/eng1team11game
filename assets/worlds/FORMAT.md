@@ -41,7 +41,7 @@ If `grid` is absent, the loader falls back to `collision.rects`.
 
 
 ## Engine contract (minimal)
-- Loader: `com.mygdx.starter.world.TileMapJson`
+- Loader: `t11.game.TileMapJson`
 - API:
   - `render(SpriteBatch)` — draw floor/walls
   - `isSolid(int gx, int gy)` — collision query on tile grid
@@ -49,4 +49,4 @@ If `grid` is absent, the loader falls back to `collision.rects`.
 - Load pipeline:
   1) Read `tileSize` and room `size`.
   2) (Optional) tile the floor texture if provided.
-  3) Apply `collision.rects[]` as **solid** walls.
+  3) If `grid` is present, build walls from `#` cells; otherwise apply `collision.rects` as **solid** walls.
