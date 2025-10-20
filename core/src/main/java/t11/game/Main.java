@@ -30,6 +30,8 @@ public class Main extends Game {
 
 	private ScreenDispatch screens;
 
+    private TileMap tilemap;
+
     //Variables for the timer coins and score, they are currently unused
     public int coinCount = 0;
     public int score = 0;
@@ -53,6 +55,8 @@ public class Main extends Game {
 
         setScreen(screens.getScreen());
 
+        tilemap = new TileMap("testMap.csv");
+
 	}
 
     @Override
@@ -65,6 +69,10 @@ public class Main extends Game {
 
         input();
         physics();
+        //clears the screen before drawing
+        Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        tilemap.render(batch);
         super.render(); //renders the current screen
         draw();
 	}
@@ -123,10 +131,6 @@ public class Main extends Game {
     }
 
     public void draw(){
-        //clears the screen before drawing
-        Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         //.draw() can do many things, the origins lets you draw from a different place that isn't 0,0 relative
         //to the texture, width and height let you crow textures, rotation is self explanatory
         //and the rest are for drawing certain sections of a texture which can be used to make
