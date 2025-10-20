@@ -10,7 +10,7 @@
   "formatVersion": "1.0",
   "tileSize": 32,
   "origin": "bottom-left",
-  "textures": { "wall": "libgdx.png" },
+  "textures": { "wall": "stone.png" },
   "rooms": [
     {
       "id": "room_start",
