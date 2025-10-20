@@ -26,6 +26,19 @@
     }
   ]
 }
+### Optional: grid-based walls
+Instead of `collision.rects`, a room can provide `grid` (array of strings).
+- `#` = wall, `.` = empty floor
+- Lines are written top→down; loader flips to bottom-left origin.
+Example:
+"size": { "w": 5, "h": 3 },
+"grid": [
+  "#####",
+  "#...#",
+  "#####"
+]
+If `grid` is absent, the loader falls back to `collision.rects`.
+
 
 ## Engine contract (minimal)
 - Loader: `com.mygdx.starter.world.TileMapJson`
