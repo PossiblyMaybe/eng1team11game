@@ -1,6 +1,6 @@
 package t11.game;
 
-public class SimpleEventCounter {
+public class EventCounter {
     private int positive = 0;
     private int negative = 0;
     private int hidden   = 0;
