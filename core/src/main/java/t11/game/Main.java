@@ -10,28 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Main extends Game {
-<<<<<<< HEAD
-	private SpriteCache cache;
-	private double timeElapsed;
-	
-	private Screen openingLogos;
-	private Screen mainMenu;
-	private ScreenDispatch test;
-	
-	@Override
-	public void create() {
-        	cache = new SpriteCache();
-		
-		String[] pngs = {"libgdx.png","teamLogo.png"};
-		openingLogos = new LogoScreen(cache, pngs);
-		mainMenu = new MainMenu();
-
-		test = new ScreenDispatch();
-		test.addScreen(openingLogos);
-		test.addScreen(mainMenu);
-=======
-
-    //I reimplemented SpriteBatch since SpriteCache is a pain, and we aren't drawing enough sprites
+//I reimplemented SpriteBatch since SpriteCache is a pain, and we aren't drawing enough sprites
     //on the screen to warrant needing SpriteCache. If we had a large open world it would make sense,
     //but not if we are only drawing one screen at a time
     public SpriteBatch batch;
@@ -71,27 +50,10 @@ public class Main extends Game {
         setScreen(screens.getScreen());
 
         tilemap = new TileMap("testMap.csv");
->>>>>>> alex-ver
+
 
 	}
 
-<<<<<<< HEAD
-    	@Override
-    	public void render() {
-		super.render();
-		this.timeElapsed += Gdx.graphics.getDeltaTime();
-		if (this.timeElapsed > 10){
-			this.setScreen(this.test.toNextScreen());
-		}
-	}
-
-    	@Override
-    	public void dispose() {
-        	cache.dispose();
-    		openingLogos.dispose();
-		mainMenu.dispose();
-	}
-=======
     @Override
     public void render() {
         // Updates the camera
@@ -154,6 +116,5 @@ public class Main extends Game {
         batch.draw(player.getTexture(), player.getPos().x, player.getPos().y, 0, 0, 32, 32, player.getScale().x, player.getScale().y, player.getRotation(), 0, 0, 32, 32, false, false);
         batch.end();
     }
->>>>>>> alex-ver
 
 }
