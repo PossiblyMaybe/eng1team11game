@@ -23,11 +23,6 @@ public class Main extends Game {
     private static final float WINDOW_WIDTH = 800;
     private static final float WINDOW_HEIGHT = 600;
 
-    //this is some horrendous implementation, sorry
-    private float dashCooldown = 0;
-    private final Vector2 direction = new Vector2(0,0);
-
-
 	private ScreenDispatch screens;
 
     private TileMap tilemap;
@@ -93,37 +88,17 @@ public class Main extends Game {
     {
         //This grabs the input for the player, currently it checks for
         //the arrow keys and the space bar
-        float delta = Gdx.graphics.getDeltaTime();
-        boolean isDashing;
-        if (dashCooldown > 2.75)
-            isDashing = true;
-        else {
-            isDashing = false;
-            direction.x = 0;
-            direction.y = 0;
-        }
+        Vector2 direction = new Vector2(0,0);
 
         //something to note is that I made it so that you can change the direction while dashing
-        if (!isDashing) {
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                direction.y += 1;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                direction.y -= 1;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                direction.x -= 1;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                direction.x += 1;
-            }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) ^ Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            direction.y = Gdx.input.isKeyPressed(Input.Keys.UP) ? 1: -1;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && dashCooldown <= 0) {
-            isDashing = true;
-            dashCooldown = 3;
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) ^ Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            direction.x = Gdx.input.isKeyPressed(Input.Keys.RIGHT) ? 1 : -1;
         }
-        player.move(direction, isDashing, delta);
-        dashCooldown -= delta;
+
+        player.move(direction, Gdx.input.isKeyPressed(Input.Keys.SPACE), Gdx.graphics.getDeltaTime());
     }
 
     public void physics(){
@@ -138,7 +113,7 @@ public class Main extends Game {
         //batch.draw(texture, x, y, originX, originY, width, height, scaleX, scaleY, rotation, 0, 0, texWidth, texHeight, false, false);
         batch.begin();
         //draws the player on top, this should later be changed to implement a Z indexing
-        batch.draw(player.getSprite(), player.getPos().x, player.getPos().y, 0, 0, 32, 32, player.getScale().x, player.getScale().y, player.getRotation(), 0, 0, 32, 32, false, false);
+        batch.draw(player.getTexture(), player.getPos().x, player.getPos().y, 0, 0, 32, 32, player.getScale().x, player.getScale().y, player.getRotation(), 0, 0, 32, 32, false, false);
         batch.end();
     }
 

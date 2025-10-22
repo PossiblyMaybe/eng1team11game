@@ -23,7 +23,7 @@ public class Coin implements GameEntity{
     }
 
     @Override
-    public Texture getSprite() {
+    public Texture getTexture() {
         return sprite;
     }
 
