@@ -37,7 +37,7 @@ public class TestScreen2 extends ScreenAdapter{
         //draws all of the objects
         batch.begin();
         for (int i = 0; i < scene.size(); i++){ //so this doesn't draw it for some reason??? idk why
-            batch.draw(scene.get(i).getTexture(), scene.get(i).getPos().x, scene.get(i).getPos().y);
+            batch.draw(scene.get(i).getSprite(), scene.get(i).getPos().x, scene.get(i).getPos().y);
         }
         batch.end();
     }

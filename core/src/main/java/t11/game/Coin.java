@@ -1,13 +1,13 @@
 package t11.game;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Coin implements GameEntity{
     public final Vector2 position = new Vector2();
     private final Vector2 scale = new Vector2(1,1);
     private float rotation = 0;
-    private Texture sprite = new Texture("coin.png");
+    private SpriteSheet sprite = new SpriteSheet("testSpriteSheet.png", 8);
 
     //it's a coin :)
 
@@ -23,8 +23,8 @@ public class Coin implements GameEntity{
     }
 
     @Override
-    public Texture getTexture() {
-        return sprite;
+    public TextureRegion getSprite() {
+        return sprite.getTexture();
     }
 
     @Override
