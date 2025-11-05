@@ -47,15 +47,25 @@ public class Main extends Game {
 
         Gdx.graphics.setWindowedMode(800,600);
 
+        Gdx.graphics.setWindowedMode(800,600);
+
         player = new Player();
 
         //Adds the test screen to the list of screens, this can later be replaced with
         //an algorithm to select a bunch of screens
+
         screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player, camera, viewport));
+
+
+
 
         setScreen(screens.getScreen());
 
         //tilemap = new TileMap("testMap.csv", new SpriteSheet("testSpriteSheet.png", 8));
+
+
+
+
 
 	}
 

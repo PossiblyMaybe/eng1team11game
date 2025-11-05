@@ -12,6 +12,7 @@ public class Coin implements GameEntity{
     private float height;
     private float width;
 
+
     //it's a coin :)
 
     public Coin(float x, float y){

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+
 import java.util.ArrayList;
 
 public class LevelScreen extends ScreenAdapter{
@@ -19,14 +20,15 @@ public class LevelScreen extends ScreenAdapter{
     ArrayList<GameEntity> scene = new ArrayList<GameEntity>();
     private SpriteBatch batch;
 
+
     private final OrthographicCamera camera;
     private Vector2 target;
 
     String levelJSON;
-    private Player player;
+    Player player;
 
 
-	public LevelScreen(String levelJSON, SpriteBatch batch, Player player,
+    public LevelScreen(String levelJSON, SpriteBatch batch, Player player,
                        OrthographicCamera camera, Viewport viewport) {
         //gets the spritebatch so we only use 1 global batch which will be disposed upon
         //closing the game
@@ -38,7 +40,7 @@ public class LevelScreen extends ScreenAdapter{
         player.position.set(0, 200);
 
         target = new Vector2(320, 240);
-	}
+   }
 
     private void update(float delta) {
         boolean up = Gdx.input.isKeyPressed(Input.Keys.UP);
@@ -50,6 +52,8 @@ public class LevelScreen extends ScreenAdapter{
         Physics.moveWithTileCollisions(player, tileMap, delta, vel.x, vel.y);
 
     }
+
+
 
     @Override
     public void show() {
@@ -89,9 +93,9 @@ public class LevelScreen extends ScreenAdapter{
     public void render(float delta){
         update(delta);
 
-        if Physics.coinCollision() {
+
             
-        }
+
 
         if (player.position.x + (player.getWidthPixels() / 2) < target.x - 320f) {
             target.x -= 640f;
