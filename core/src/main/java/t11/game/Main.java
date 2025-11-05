@@ -19,8 +19,8 @@ public class Main extends Game {
     private FitViewport viewport;
 
     // Window size constants
-    private static final float WINDOW_WIDTH = 800;
-    private static final float WINDOW_HEIGHT = 600;
+    private static final float WINDOW_WIDTH = 640;
+    private static final float WINDOW_HEIGHT = 480;
 
 	private ScreenDispatch screens;
 
@@ -41,15 +41,17 @@ public class Main extends Game {
         camera = new OrthographicCamera();
         viewport = new FitViewport(WINDOW_WIDTH, WINDOW_HEIGHT, camera);
 
+        Gdx.graphics.setWindowedMode(800,600);
+
         player = new Player();
 
         //Adds the test screen to the list of screens, this can later be replaced with
         //an algorithm to select a bunch of screens
-        screens = new ScreenDispatch(new TestScreen(batch));
+        screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player));
 
         setScreen(screens.getScreen());
 
-        tilemap = new TileMap("testMap.csv");
+        //tilemap = new TileMap("testMap.csv", new SpriteSheet("testSpriteSheet.png", 8));
 
 
 	}
@@ -67,9 +69,7 @@ public class Main extends Game {
         //clears the screen before drawing
         Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        tilemap.render(batch);
         super.render(); //renders the current screen
-        draw();
 	}
 
     @Override
@@ -105,16 +105,5 @@ public class Main extends Game {
         //currently does nothing :)
     }
 
-    public void draw(){
-        //.draw() can do many things, the origins lets you draw from a different place that isn't 0,0 relative
-        //to the texture, width and height let you crow textures, rotation is self explanatory
-        //and the rest are for drawing certain sections of a texture which can be used to make
-        //spritesheets work
-        //batch.draw(texture, x, y, originX, originY, width, height, scaleX, scaleY, rotation, 0, 0, texWidth, texHeight, false, false);
-        batch.begin();
-        //draws the player on top, this should later be changed to implement a Z indexing
-        batch.draw(player.getTexture(), player.getPos().x, player.getPos().y, 0, 0, 32, 32, player.getScale().x, player.getScale().y, player.getRotation(), 0, 0, 32, 32, false, false);
-        batch.end();
-    }
 
 }
