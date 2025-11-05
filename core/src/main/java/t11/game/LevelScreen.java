@@ -1,10 +1,15 @@
 package t11.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.viewport.Viewport;
+
 
 import java.util.ArrayList;
 
@@ -15,17 +20,40 @@ public class LevelScreen extends ScreenAdapter{
     ArrayList<GameEntity> scene = new ArrayList<GameEntity>();
     private SpriteBatch batch;
 
+
+    private final OrthographicCamera camera;
+    private Vector2 target;
+
     String levelJSON;
     Player player;
 
 
-	public LevelScreen(String levelJSON, SpriteBatch batch, Player player){
+    public LevelScreen(String levelJSON, SpriteBatch batch, Player player,
+                       OrthographicCamera camera, Viewport viewport) {
         //gets the spritebatch so we only use 1 global batch which will be disposed upon
         //closing the game
         this.batch = batch;
         this.levelJSON = levelJSON;
         this.player = player;
-	}
+        this.camera = camera;
+
+        player.position.set(0, 200);
+
+        target = new Vector2(320, 240);
+   }
+
+    private void update(float delta) {
+        boolean up = Gdx.input.isKeyPressed(Input.Keys.UP);
+        boolean down = Gdx.input.isKeyPressed(Input.Keys.DOWN);
+        boolean left = Gdx.input.isKeyPressed(Input.Keys.LEFT);
+        boolean right = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
+        Vector2 vel = player.getVelocity(up, down, left, right);
+
+        Physics.moveWithTileCollisions(player, tileMap, delta, vel.x, vel.y);
+
+    }
+
+
 
     @Override
     public void show() {
@@ -54,8 +82,6 @@ public class LevelScreen extends ScreenAdapter{
         }
 
         scene.add(player);
-
-
     }
 
     @Override
@@ -65,6 +91,22 @@ public class LevelScreen extends ScreenAdapter{
 
     @Override
     public void render(float delta){
+        update(delta);
+
+
+            
+
+
+        if (player.position.x + (player.getWidthPixels() / 2) < target.x - 320f) {
+            target.x -= 640f;
+            CameraStyles.lockOnTarget(camera, target);
+        }
+        if (player.position.x + (player.getWidthPixels() / 2) > target.x + 320f) {
+            target.x += 640f;
+            CameraStyles.lockOnTarget(camera, target);
+        }
+        batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
         //draw all the tiles
         for (Tile[] tileRow: tileMap.getTiles()){

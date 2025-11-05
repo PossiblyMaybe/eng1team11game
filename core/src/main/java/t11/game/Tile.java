@@ -9,7 +9,10 @@ public class Tile {
     private TextureRegion sprite;
     private boolean isSolid;
     private final Vector2 position = new Vector2();
+
+
     private static final int TILE_SIZE = 16;
+
 
     public Tile(TextureRegion textureReg, boolean solid, float x, float y) {
         this.sprite = textureReg;

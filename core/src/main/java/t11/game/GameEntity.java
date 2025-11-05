@@ -1,6 +1,7 @@
 package t11.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public interface GameEntity {
@@ -10,4 +11,5 @@ public interface GameEntity {
     public Vector2 getPos();
     public Vector2 getScale();
     public float getRotation();
+    public Rectangle getBounds();
 }

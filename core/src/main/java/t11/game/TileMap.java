@@ -9,11 +9,16 @@ public class TileMap {
     private Tile[][] tiles;
     private int width;
     private int height;
-    private static final int TILE_SIZE = 40; //2.5x scale for 16 pixel tiles
+
+    public static final int TILE_SIZE = 40; //2.5x scale for 16 pixel tiles
     private Texture stone = new Texture("stone.jpg");
     private SpriteSheet spriteSheet;
 
-    public TileMap(String filePath, String spriteSheetPath, int endFrame) {
+    public int getWidthTiles() { return width; }
+    public int getHeightTiles() { return height; }
+    public int getTileSize() { return TILE_SIZE; }
+
+   public TileMap(String filePath, String spriteSheetPath, int endFrame) {
         this.spriteSheet = new SpriteSheet(spriteSheetPath, endFrame);
         this.load(filePath);
     }

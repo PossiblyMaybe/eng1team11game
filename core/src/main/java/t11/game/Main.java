@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Main extends Game {
-//I reimplemented SpriteBatch since SpriteCache is a pain, and we aren't drawing enough sprites
+
+    //I reimplemented SpriteBatch since SpriteCache is a pain, and we aren't drawing enough sprites
     //on the screen to warrant needing SpriteCache. If we had a large open world it would make sense,
     //but not if we are only drawing one screen at a time
     public SpriteBatch batch;
@@ -40,6 +42,10 @@ public class Main extends Game {
         // Creates the orthographic camera and viewport
         camera = new OrthographicCamera();
         viewport = new FitViewport(WINDOW_WIDTH, WINDOW_HEIGHT, camera);
+        camera.position.set(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 0);
+        camera.update();
+
+        Gdx.graphics.setWindowedMode(800,600);
 
         Gdx.graphics.setWindowedMode(800,600);
 
@@ -47,11 +53,18 @@ public class Main extends Game {
 
         //Adds the test screen to the list of screens, this can later be replaced with
         //an algorithm to select a bunch of screens
-        screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player));
+
+        screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player, camera, viewport));
+
+
+
 
         setScreen(screens.getScreen());
 
         //tilemap = new TileMap("testMap.csv", new SpriteSheet("testSpriteSheet.png", 8));
+
+
+
 
 
 	}
@@ -65,7 +78,6 @@ public class Main extends Game {
         batch.setProjectionMatrix(camera.combined);
 
         input();
-        physics();
         //clears the screen before drawing
         Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -75,7 +87,7 @@ public class Main extends Game {
     @Override
     public void resize(int width, int height) {
         // Update the viewport and re-center the camera
-        viewport.update(width, height);
+        viewport.update(width, height, true);
         camera.position.set(WINDOW_WIDTH / 2f, WINDOW_HEIGHT / 2f, 0);
     }
 
@@ -101,9 +113,6 @@ public class Main extends Game {
         player.move(direction, Gdx.input.isKeyPressed(Input.Keys.SPACE), Gdx.graphics.getDeltaTime());
     }
 
-    public void physics(){
-        //currently does nothing :)
-    }
 
 
 }
