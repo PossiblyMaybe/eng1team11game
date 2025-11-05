@@ -2,33 +2,34 @@ package t11.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 public class Tile {
-    private Texture texture;
-    private boolean solid;
-    private float x, y;
-    private static final int TILE_SIZE = 32;
+    private TextureRegion sprite;
+    private boolean isSolid;
+    private final Vector2 position = new Vector2();
 
-    public Tile(Texture texture, boolean solid, float x, float y) {
-        this.texture = texture;
-        this.solid = solid;
-        this.x = x;
-        this.y = y;
+    public Tile(TextureRegion textureReg, boolean solid, float x, float y) {
+        this.sprite = textureReg;
+        this.isSolid = solid;
+        position.x = x;
+        position.y = y;
     }
 
-    public void render(SpriteBatch batch) {
-        batch.begin();
-        if (texture != null) {
-            batch.draw(texture, x, y, TILE_SIZE, TILE_SIZE);
-        }
-        batch.end();
+    public Vector2 getPos(){
+        return position;
+    }
+
+    public TextureRegion getSprite(){
+        return sprite;
     }
 
     public boolean isSolid() {
-        return solid;
+        return isSolid;
     }
 
     public void dispose() {
-        if (texture != null) texture.dispose();
+        //texture region doesn't have a dispose method so idk what to put here
     }
 }

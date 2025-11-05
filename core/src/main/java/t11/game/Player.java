@@ -2,30 +2,44 @@ package t11.game;
 
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 
 public class Player implements GameEntity{
     public final Vector2 position = new Vector2(0,0);
-    private final Vector2 scale = new Vector2(  1.5f,1.5f);
+    private final Vector2 scale = new Vector2(  1f,1f);
     private float rotation = 0;
-    private final Texture sprite = new Texture("bob.png");
+    private TextureRegion sprite = new TextureRegion(new Texture("bob.png"));
 
-    private final static float SPEED = 400;
+    private final static float SPEED = 200f;
     private final static float DASHMULT = 2;
     private boolean isDashing = false;
     private float dashCooldown = 0;
     private final Vector2 lastDirection = new Vector2();
 
+    public float getWidthPixels() { return sprite.getRegionWidth() * scale.x; }
+    public float getHeightPixels() { return sprite.getRegionHeight() * scale.y; }
 
 
-    public Player()
-    {
+    public Player() { }
 
+    public Rectangle getBounds() { return new Rectangle(position.x, position.y, getWidthPixels(), getHeightPixels()); }
+
+    public Vector2 getVelocity(boolean up, boolean down, boolean left, boolean right) {
+        float vx = (right ? 1f : 0f) - (left ? 1f : 0f);
+        float vy = (up ? 1f : 0f) - (down ? 1f : 0f);
+        if (vx != 0 || vy != 0) {
+            float lenInv = 1f / (float) Math.sqrt(vx * vx + vy * vy);
+            vx *= SPEED * lenInv;
+            vy *= SPEED * lenInv;
+        }
+        return new Vector2(vx, vy);
     }
 
     @Override
-    public Texture getTexture() { return sprite; }
+    public TextureRegion getSprite() { return sprite; }
 
     @Override
     public Vector2 getPos() { return position; }

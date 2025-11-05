@@ -25,8 +25,9 @@ public class ScreenDispatch {
 
 	public Screen toNextScreen(){
 		if (currentIndex + 1 >= screens.size()){
-			return screens.get(currentIndex); //TODO: make this throw an exception
+			return screens.get(currentIndex);
 		}
+        screens.get(currentIndex).dispose();
 		currentIndex++;
 		return screens.get(currentIndex);
 	}

@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Main extends Game {
-//I reimplemented SpriteBatch since SpriteCache is a pain, and we aren't drawing enough sprites
+
+    //I reimplemented SpriteBatch since SpriteCache is a pain, and we aren't drawing enough sprites
     //on the screen to warrant needing SpriteCache. If we had a large open world it would make sense,
     //but not if we are only drawing one screen at a time
     public SpriteBatch batch;
@@ -19,8 +21,8 @@ public class Main extends Game {
     private FitViewport viewport;
 
     // Window size constants
-    private static final float WINDOW_WIDTH = 800;
-    private static final float WINDOW_HEIGHT = 600;
+    private static final float WINDOW_WIDTH = 640;
+    private static final float WINDOW_HEIGHT = 480;
 
 	private ScreenDispatch screens;
 
@@ -40,17 +42,20 @@ public class Main extends Game {
         // Creates the orthographic camera and viewport
         camera = new OrthographicCamera();
         viewport = new FitViewport(WINDOW_WIDTH, WINDOW_HEIGHT, camera);
+        camera.position.set(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 0);
+        camera.update();
+
+        Gdx.graphics.setWindowedMode(800,600);
 
         player = new Player();
 
         //Adds the test screen to the list of screens, this can later be replaced with
         //an algorithm to select a bunch of screens
-        screens = new ScreenDispatch(new TestScreen(batch));
+        screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player, camera, viewport));
 
         setScreen(screens.getScreen());
 
-        tilemap = new TileMap("testMap.csv");
-
+        //tilemap = new TileMap("testMap.csv", new SpriteSheet("testSpriteSheet.png", 8));
 
 	}
 
@@ -63,19 +68,16 @@ public class Main extends Game {
         batch.setProjectionMatrix(camera.combined);
 
         input();
-        physics();
         //clears the screen before drawing
         Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        tilemap.render(batch);
         super.render(); //renders the current screen
-        draw();
 	}
 
     @Override
     public void resize(int width, int height) {
         // Update the viewport and re-center the camera
-        viewport.update(width, height);
+        viewport.update(width, height, true);
         camera.position.set(WINDOW_WIDTH / 2f, WINDOW_HEIGHT / 2f, 0);
     }
 
@@ -101,20 +103,6 @@ public class Main extends Game {
         player.move(direction, Gdx.input.isKeyPressed(Input.Keys.SPACE), Gdx.graphics.getDeltaTime());
     }
 
-    public void physics(){
-        //currently does nothing :)
-    }
 
-    public void draw(){
-        //.draw() can do many things, the origins lets you draw from a different place that isn't 0,0 relative
-        //to the texture, width and height let you crow textures, rotation is self explanatory
-        //and the rest are for drawing certain sections of a texture which can be used to make
-        //spritesheets work
-        //batch.draw(texture, x, y, originX, originY, width, height, scaleX, scaleY, rotation, 0, 0, texWidth, texHeight, false, false);
-        batch.begin();
-        //draws the player on top, this should later be changed to implement a Z indexing
-        batch.draw(player.getTexture(), player.getPos().x, player.getPos().y, 0, 0, 32, 32, player.getScale().x, player.getScale().y, player.getRotation(), 0, 0, 32, 32, false, false);
-        batch.end();
-    }
 
 }

@@ -1,1 +1,0 @@
-./gradlew lwjgl:run
