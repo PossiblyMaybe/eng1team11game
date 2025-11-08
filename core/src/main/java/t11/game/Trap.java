@@ -1,27 +1,24 @@
 package t11.game;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Coin implements GameEntity{
+public class Trap implements GameEntity {
     public final Vector2 position = new Vector2();
-    private final Vector2 scale = new Vector2(1,1);
-    private float rotation = 0;
+    private final Vector2 scale = new Vector2(1f,1f);
+    private final float rotation = 0;
     private SpriteSheet sprite = new SpriteSheet("testSpriteSheet.png", 8);
     private float height;
     private float width;
-    public boolean collected;
 
-    //it's a coin :)
-
-    public Coin(float x, float y){
+    public Trap(float x, float y) {
         position.x = x;
         position.y = y;
         height = getSprite().getRegionHeight() * scale.y;
-        width = getSprite().getRegionWidth() *  scale.x;
-        getSprite().setRegion(32, 0, 16, 16);
-        collected = false;
+        width = getSprite().getRegionWidth() * scale.x;
+        getSprite().setRegion(16, 32, 16, 16);
     }
 
     public Rectangle getBounds(){
@@ -47,4 +44,5 @@ public class Coin implements GameEntity{
     public float getRotation() {
         return rotation;
     }
+
 }

@@ -1,20 +1,9 @@
 {
   "tileMapInfo" :
     {
-      "tileMapPath": "testMap.csv",
+      "tileMapPath": "startRoom.csv",
       "spriteSheetPath": "testSpriteSheet.png",
       "endFrame": 8
     },
-  "levelObjects": [
-    {
-      "type": "coin",
-      "x": 200,
-      "y": 100
-    },
-    {
-      "type": "coin",
-      "x": 400,
-      "y": 300
-    }
-  ]
+  "levelObjects": []
 }

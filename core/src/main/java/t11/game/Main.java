@@ -3,6 +3,7 @@ package t11.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,7 +11,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import java.util.ArrayList;
+import java.util.logging.Level;
 
 public class Main extends Game {
 
@@ -22,12 +27,13 @@ public class Main extends Game {
 
     private OrthographicCamera camera;
     private FitViewport viewport;
+    public static ArrayList<String> JSON_Array;
 
     // Window size constants
     private static final float WINDOW_WIDTH = 640;
     private static final float WINDOW_HEIGHT = 480;
 
-	private ScreenDispatch screens;
+	public static ScreenDispatch screens;
 
     //Variables for the timer coins and score, they are currently unused
     private int coinCount;
@@ -43,11 +49,12 @@ public class Main extends Game {
     //paused bool
     private boolean paused;
 
-	@Override
+    @Override
 	public void create() {
         //drawing stuff definitions
         batch = new SpriteBatch();
         font = new BitmapFont();
+
 
         // Creates the orthographic camera and viewport
         camera = new OrthographicCamera();
@@ -75,10 +82,11 @@ public class Main extends Game {
         // Updates the camera
         camera.update();
 
+        input();
+
         //idk what this does tbh i just know i need it
         batch.setProjectionMatrix(camera.combined);
 
-        input();
         //clears the screen before drawing
         Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -97,10 +105,15 @@ public class Main extends Game {
     @Override
     public void dispose() {
         batch.dispose();
+        font.dispose();
     }
 
-    public void input()
-    {
+    public static void input() {
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            paused = !paused;
+            System.out.println(paused);
+        }
         //This grabs the input for the player, currently it checks for
         //the arrow keys and the space bar
         Vector2 direction = new Vector2(0,0);
