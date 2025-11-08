@@ -27,13 +27,13 @@ public class Main extends Game {
 
     private OrthographicCamera camera;
     private FitViewport viewport;
-    public static ArrayList<String> JSON_Array;
+   
 
     // Window size constants
     private static final float WINDOW_WIDTH = 640;
     private static final float WINDOW_HEIGHT = 480;
 
-	public static ScreenDispatch screens;
+	public ScreenDispatch screens;
 
     //Variables for the timer coins and score, they are currently unused
     private int coinCount;
@@ -47,7 +47,7 @@ public class Main extends Game {
     private Texture guiPiece;
 
     //paused bool
-    private boolean paused;
+    private boolean paused = false;
 
     @Override
 	public void create() {
@@ -67,7 +67,7 @@ public class Main extends Game {
         player = new Player();
         clock = new Texture("Clock.png");
         guiPiece = new Texture("gui piece.png");
-        paused = false;
+        
 
         screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player, camera, viewport));
 
@@ -108,12 +108,9 @@ public class Main extends Game {
         font.dispose();
     }
 
-    public static void input() {
+    public void input() {
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            paused = !paused;
-            System.out.println(paused);
-        }
+       
         //This grabs the input for the player, currently it checks for
         //the arrow keys and the space bar
         Vector2 direction = new Vector2(0,0);

@@ -53,13 +53,13 @@ public class TileMap {
                     }*/
                     switch(tileValue) {
                         case 0:
-                            this.tiles[x][this.height - y - 1] = new Tile(null, false, LevelScreen.roomX + (float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
+                           this.tiles[x][this.height - y - 1] = new Tile(null, false,(float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
                             break;
                         case 1:
-                            this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), false, LevelScreen.roomX + (float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
+                            this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), false,(float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
                             break;
                         default:
-                            this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), true, LevelScreen.roomX + (float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
+                            this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), true,(float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
                             break;
 
                     }

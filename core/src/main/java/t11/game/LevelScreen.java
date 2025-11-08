@@ -27,7 +27,7 @@ public class LevelScreen extends ScreenAdapter{
     private final OrthographicCamera camera;
     private Vector2 target;
 
-    ArrayList<String> JSON_array;
+    private String levelJSON;
     private Player player;
 
     private ArrayList<Coin> coins = new ArrayList<>();
@@ -41,14 +41,14 @@ public class LevelScreen extends ScreenAdapter{
 
 
 
-	public LevelScreen(ArrayList<String> JSON_array, SpriteBatch batch, Player player,
+	public LevelScreen(String levelJSON, SpriteBatch batch, Player player,
                        OrthographicCamera camera, Viewport viewport) {
         //gets the spritebatch so we only use 1 global batch which will be disposed upon
         //closing the game
         this.batch = batch;
         this.player = player;
         this.camera = camera;
-        this.JSON_array = JSON_array;
+        this.levelJSON = levelJSON;
         this.paused = false;
 
 
@@ -69,15 +69,15 @@ public class LevelScreen extends ScreenAdapter{
         for (JsonValue value: levelObjects){
             switch (value.getString("type")) {
                 case "coin":
-                    //System.out.println(roomX);
-                    coins.add(new Coin(roomX + value.getFloat("x"), roomY + value.getFloat("y")));
+    
+                    coins.add(new Coin(value.getFloat("x"),value.getFloat("y")));
                     break;
                 case "pot":
                     break;
                 case "door":
                     break;
                 case "trap":
-                    traps.add(new Trap(roomX + value.getFloat("x"), roomY + value.getFloat("y")));
+                    traps.add(new Trap(value.getFloat("x"),value.getFloat("y")));
                     break;
             }
         }
@@ -114,12 +114,7 @@ public class LevelScreen extends ScreenAdapter{
         boolean right = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
         Vector2 vel = player.getVelocity(up, down, left, right);
 
-        if (!Main.paused) {
-            timeRemaining -= delta;
-        }
 
-
-        timeString = "Time Remaining: " + (int)timeRemaining;
 
         Physics.moveWithTileCollisions(player, tileMap, delta, vel.x, vel.y);
 
@@ -129,10 +124,10 @@ public class LevelScreen extends ScreenAdapter{
 
     @Override
     public void show() {
-        parseJSON(JSON_array.get(0));
+        parseJSON(levelJSON);
         scene.add(player);
         drawRooms();
-        System.out.println(roomX);
+    
     }
 
     @Override
@@ -142,26 +137,6 @@ public class LevelScreen extends ScreenAdapter{
 
     @Override
     public void render(float delta){
-        update(delta);
-
-        for (Coin  coin: coins) {
-            if (Physics.coinCollision(player, coin)) {
-                scene.remove(coin);
-                if (!coin.collected) {
-                    coin.collected = true;
-                    coinCount++;
-                    System.out.println(coinCount);
-                }
-            }
-        }
-
-        Player.SPEED = 200f;
-
-        for (Trap trap: traps) {
-            if (Physics.trapTriggered(player, trap)) {
-                Player.SPEED = 50f;
-            }
-        }
 
         if (!paused)
             physics(delta);
@@ -170,7 +145,18 @@ public class LevelScreen extends ScreenAdapter{
 
     public void draw(){
         batch.begin();
-        Main.font.draw(Main.batch, timeString, target.x - 315f, 473f);
+        
+	for (Tile[] tileRow: tileMap.getTiles()){
+		for (Tile tile: tileRow){
+			if (tile.getSprite() != null){
+				batch.draw(tile.getSprite(), tile.getPos().x, tile.getPos().y, 0,0,16,16,2.5f,2.5f,0);
+			}
+		}
+	}
+
+	for (GameEntity obj: scene){
+		batch.draw(obj.getSprite(), obj.getPos().x, obj.getPos().y);
+	}
         batch.end();
 
     }

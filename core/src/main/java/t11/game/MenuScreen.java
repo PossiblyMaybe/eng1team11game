@@ -13,9 +13,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class MenuScreen extends ScreenAdapter implements Screen {
+public class MenuScreen extends ScreenAdapter{
     SpriteBatch batch = new SpriteBatch();
-    static Boolean menuDone = false;
+    Boolean menuDone = false;
     OrthographicCamera camera;
     Viewport viewport;
 
@@ -34,8 +34,8 @@ public class MenuScreen extends ScreenAdapter implements Screen {
 
         batch.begin();
 
-        Main.font.draw(batch, "ESCAPE FROM UNI", 250, 350);
-        Main.font.draw(batch, "Tap anywhere to begin!", 245, 300);
+//       Main.font.draw(batch, "ESCAPE FROM UNI", 250, 350);
+//        Main.font.draw(batch, "Tap anywhere to begin!", 245, 300);
 
         batch.end();
 
