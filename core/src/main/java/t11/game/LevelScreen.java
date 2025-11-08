@@ -37,9 +37,8 @@ public class LevelScreen extends ScreenAdapter{
     public int score = 0;
     public float timeRemaining = 300;
 
-    public int rooms = 6;
-    public static float roomX = 0;
-    public float roomY = 0;
+    private boolean paused = false;
+
 
 
 	public LevelScreen(ArrayList<String> JSON_array, SpriteBatch batch, Player player,
@@ -50,6 +49,7 @@ public class LevelScreen extends ScreenAdapter{
         this.player = player;
         this.camera = camera;
         this.JSON_array = JSON_array;
+        this.paused = false;
 
 
         player.position.set(320 - Player.getWidthPixels(), 200);
@@ -137,7 +137,7 @@ public class LevelScreen extends ScreenAdapter{
 
     @Override
     public void dispose(){
-        //TODO: Make this dispose otherwise we get a shit ton of memory leaks
+        //does nothing :)
     }
 
     @Override
@@ -163,43 +163,43 @@ public class LevelScreen extends ScreenAdapter{
             }
         }
 
-        // switch room (camera)
-        if (player.position.x + (Player.getWidthPixels() / 2) < target.x - 320f) {
-            target.x -= 640f;
-            parseJSON(JSON_array.get(1));
-            CameraStyles.lockOnTarget(camera, target);
-        }
+        if (!paused)
+            physics(delta);
+        draw();
+    }
 
-        if (player.position.x + (Player.getWidthPixels() / 2) > target.x + 320f) {
-            target.x += 640f;
-            CameraStyles.lockOnTarget(camera, target);
-        }
-
-
-
-            camera.update();
-            batch.setProjectionMatrix(camera.combined);
-            drawRooms();
-
-
-        // draw timer
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.GRAY);
-        shapeRenderer.rect(target.x - 317f, 455f, timeString.length() * 7.5f, 22f);
-        shapeRenderer.end();
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.BLACK);
-        shapeRenderer.rect(target.x - 317f, 455f, timeString.length() * 7.5f, 22f);
-        shapeRenderer.end();
-
+    public void draw(){
         batch.begin();
         Main.font.draw(Main.batch, timeString, target.x - 315f, 473f);
         batch.end();
 
     }
 
+    public void physics(float delta){
+        update(delta);
+
+        if (player.position.x + (player.getWidthPixels() / 2) < target.x - 320f) {
+            target.x -= 640f;
+            CameraStyles.lockOnTarget(camera, target);
+        }
+        if (player.position.x + (player.getWidthPixels() / 2) > target.x + 320f) {
+            target.x += 640f;
+            CameraStyles.lockOnTarget(camera, target);
+        }
+        batch.setProjectionMatrix(camera.combined);
+    }
+
+    @Override
+    public void pause(){
+        paused = true;
+        System.out.println("Paused");
+    }
+
+    @Override
+    public void resume(){
+        paused = false;
+        System.out.println("Unpaused");
+    }
 
 }
 

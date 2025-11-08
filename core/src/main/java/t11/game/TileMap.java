@@ -10,7 +10,6 @@ public class TileMap {
     private int width;
     private int height;
     public static final int TILE_SIZE = 40; //2.5x scale for 16 pixel tiles
-    private Texture stone = new Texture("stone.jpg");
     private SpriteSheet spriteSheet;
 
     public int getWidthTiles() { return width; }
@@ -82,9 +81,5 @@ public class TileMap {
         } else {
             return false;
         }
-    }
-
-    public void dispose() {
-        this.stone.dispose();
     }
 }

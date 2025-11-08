@@ -6,7 +6,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -19,8 +22,9 @@ public class Main extends Game {
     //I reimplemented SpriteBatch since SpriteCache is a pain, and we aren't drawing enough sprites
     //on the screen to warrant needing SpriteCache. If we had a large open world it would make sense,
     //but not if we are only drawing one screen at a time
-    public static SpriteBatch batch;
-    public static BitmapFont font;
+    public SpriteBatch batch;
+    public BitmapFont font;
+
     private OrthographicCamera camera;
     private FitViewport viewport;
     public static ArrayList<String> JSON_Array;
@@ -31,26 +35,26 @@ public class Main extends Game {
 
 	public static ScreenDispatch screens;
 
-    private TileMap tilemap;
-
     //Variables for the timer coins and score, they are currently unused
-    public int coinCount = 0;
-    public int score = 0;
+    private int coinCount;
+    private int potsBroken;
+    private int trapsTriggered;
+    public int score;
     public float timeRemaining = 300;
 
-    public static boolean paused;
+    public Player player;
+    private Texture clock;
+    private Texture guiPiece;
 
-    public static Player player;
+    //paused bool
+    private boolean paused;
 
     @Override
 	public void create() {
+        //drawing stuff definitions
         batch = new SpriteBatch();
         font = new BitmapFont();
-        paused = false;
-        JSON_Array = new ArrayList<String>();
-        JSON_Array.add("testJ.json");
-        JSON_Array.add("testJ2.json");
-        JSON_Array.add("testJ3.json");
+
 
         // Creates the orthographic camera and viewport
         camera = new OrthographicCamera();
@@ -61,15 +65,15 @@ public class Main extends Game {
         Gdx.graphics.setWindowedMode(800,600);
 
         player = new Player();
+        clock = new Texture("Clock.png");
+        guiPiece = new Texture("gui piece.png");
+        paused = false;
 
-        //Adds the test screen to the list of screens, this can later be replaced with
-        //an algorithm to select a bunch of screens
+        screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player, camera, viewport));
 
-        //screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player, camera, viewport));
+        setScreen(screens.getScreen());
 
-        setScreen(new MenuScreen(camera, viewport, font));
-
-        //tilemap = new TileMap("testMap.csv", new SpriteSheet("testSpriteSheet.png", 8));
+        //
 
 	}
 
@@ -87,10 +91,8 @@ public class Main extends Game {
         Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         super.render(); //renders the current screen
-        if (MenuScreen.menuDone) {
-            setScreen(new LevelScreen(JSON_Array, batch, player, camera, viewport));
-            MenuScreen.menuDone = false;
-        }
+        guiDraw();
+        logic();
 	}
 
     @Override
@@ -118,13 +120,50 @@ public class Main extends Game {
 
         //something to note is that I made it so that you can change the direction while dashing
         if (Gdx.input.isKeyPressed(Input.Keys.UP) ^ Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            direction.y = Gdx.input.isKeyPressed(Input.Keys.UP) ? 1: -1;
+            direction.y = Gdx.input.isKeyPressed(Input.Keys.UP) ? 1 : -1;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) ^ Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             direction.x = Gdx.input.isKeyPressed(Input.Keys.RIGHT) ? 1 : -1;
         }
 
-        player.move(direction, Gdx.input.isKeyPressed(Input.Keys.SPACE), Gdx.graphics.getDeltaTime());
+        player.move(direction, Gdx.input.isKeyPressed(Input.Keys.SPACE), Gdx.graphics.getDeltaTime(), paused);
+
+
+        //test for pause
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+
+            if (paused){
+                paused = false;
+                screens.getScreen().resume();
+            } else {
+                paused = true;
+                screens.getScreen().pause();
+            }
+        }
+
+    }
+
+    public void guiDraw(){
+        batch.begin();
+        //draw gui elements here
+        batch.draw(guiPiece, 0, 448, 0, 0, 32, 16, 6, 2, 0, 0, 0, 32, 16, false, false);
+        String minutes = Integer.toString((int) timeRemaining / 60);
+        String seconds = Integer.toString((int) timeRemaining % 60);
+        String minSecText = minutes.concat(":" + seconds);
+        font.draw(batch, "Time remaining: ".concat(minSecText), 30, 470);
+        batch.draw(clock, 7, 455);
+        //event counters
+        font.draw(batch, "Coins collected: ".concat(Integer.toString(coinCount)), 500, 470);
+        font.draw(batch, "Pots broken: ".concat(Integer.toString(potsBroken)), 500, 450);
+        font.draw(batch, "Traps triggered: ".concat(Integer.toString(trapsTriggered)), 500, 430);
+
+        batch.end();
+    }
+
+    public void logic(){
+        if (!paused)
+            timeRemaining -= Gdx.graphics.getDeltaTime();
+
     }
 
 
