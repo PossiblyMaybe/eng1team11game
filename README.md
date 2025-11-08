@@ -1,4 +1,4 @@
-<img width="1988" height="784" alt="image" src="https://github.com/user-attachments/assets/7da2917a-93f3-400c-a492-be6b8cb7e9b2" /># EscapeFromUni
+# EscapeFromUni
 
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
 
@@ -39,8 +39,7 @@ Implementation took longer than initially planned, but due to the previous edit 
 ## Additional Content
 ### Risk Assessment
 Risk Register:
-![Risk Register](
-)
+![Risk Register]()
 
 ## Platforms
 
