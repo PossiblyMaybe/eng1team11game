@@ -1,4 +1,4 @@
-# EscapeFromUni
+<img width="1988" height="784" alt="image" src="https://github.com/user-attachments/assets/7da2917a-93f3-400c-a492-be6b8cb7e9b2" /># EscapeFromUni
 
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
 
@@ -36,7 +36,11 @@ The plan remained the same during these weeks.
 
 Implementation took longer than initially planned, but due to the previous edit of the plan there was enough time to accommodate for this. 
 
-
+## Additional Content
+### Risk Assessment
+Risk Register:
+![Risk Register](
+)
 
 ## Platforms
 
