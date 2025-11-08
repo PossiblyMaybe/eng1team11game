@@ -3,28 +3,33 @@ package t11.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import java.util.ArrayList;
+import java.util.logging.Level;
 
 public class Main extends Game {
 
     //I reimplemented SpriteBatch since SpriteCache is a pain, and we aren't drawing enough sprites
     //on the screen to warrant needing SpriteCache. If we had a large open world it would make sense,
     //but not if we are only drawing one screen at a time
-    public SpriteBatch batch;
-
+    public static SpriteBatch batch;
+    public static BitmapFont font;
     private OrthographicCamera camera;
     private FitViewport viewport;
+    public static ArrayList<String> JSON_Array;
 
     // Window size constants
     private static final float WINDOW_WIDTH = 640;
     private static final float WINDOW_HEIGHT = 480;
 
-	private ScreenDispatch screens;
+	public static ScreenDispatch screens;
 
     private TileMap tilemap;
 
@@ -33,11 +38,19 @@ public class Main extends Game {
     public int score = 0;
     public float timeRemaining = 300;
 
-    public Player player;
+    public static boolean paused;
 
-	@Override
+    public static Player player;
+
+    @Override
 	public void create() {
         batch = new SpriteBatch();
+        font = new BitmapFont();
+        paused = false;
+        JSON_Array = new ArrayList<String>();
+        JSON_Array.add("testJ.json");
+        JSON_Array.add("testJ2.json");
+        JSON_Array.add("testJ3.json");
 
         // Creates the orthographic camera and viewport
         camera = new OrthographicCamera();
@@ -47,25 +60,16 @@ public class Main extends Game {
 
         Gdx.graphics.setWindowedMode(800,600);
 
-        Gdx.graphics.setWindowedMode(800,600);
-
         player = new Player();
 
         //Adds the test screen to the list of screens, this can later be replaced with
         //an algorithm to select a bunch of screens
 
-        screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player, camera, viewport));
+        //screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player, camera, viewport));
 
-
-
-
-        setScreen(screens.getScreen());
+        setScreen(new MenuScreen(camera, viewport, font));
 
         //tilemap = new TileMap("testMap.csv", new SpriteSheet("testSpriteSheet.png", 8));
-
-
-
-
 
 	}
 
@@ -74,14 +78,19 @@ public class Main extends Game {
         // Updates the camera
         camera.update();
 
+        input();
+
         //idk what this does tbh i just know i need it
         batch.setProjectionMatrix(camera.combined);
 
-        input();
         //clears the screen before drawing
         Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         super.render(); //renders the current screen
+        if (MenuScreen.menuDone) {
+            setScreen(new LevelScreen(JSON_Array, batch, player, camera, viewport));
+            MenuScreen.menuDone = false;
+        }
 	}
 
     @Override
@@ -94,10 +103,15 @@ public class Main extends Game {
     @Override
     public void dispose() {
         batch.dispose();
+        font.dispose();
     }
 
-    public void input()
-    {
+    public static void input() {
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            paused = !paused;
+            System.out.println(paused);
+        }
         //This grabs the input for the player, currently it checks for
         //the arrow keys and the space bar
         Vector2 direction = new Vector2(0,0);

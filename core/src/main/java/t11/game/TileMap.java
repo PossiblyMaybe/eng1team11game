@@ -9,7 +9,6 @@ public class TileMap {
     private Tile[][] tiles;
     private int width;
     private int height;
-
     public static final int TILE_SIZE = 40; //2.5x scale for 16 pixel tiles
     private Texture stone = new Texture("stone.jpg");
     private SpriteSheet spriteSheet;
@@ -18,7 +17,7 @@ public class TileMap {
     public int getHeightTiles() { return height; }
     public int getTileSize() { return TILE_SIZE; }
 
-   public TileMap(String filePath, String spriteSheetPath, int endFrame) {
+    public TileMap(String filePath, String spriteSheetPath, int endFrame) {
         this.spriteSheet = new SpriteSheet(spriteSheetPath, endFrame);
         this.load(filePath);
     }
@@ -48,11 +47,24 @@ public class TileMap {
                         System.err.println("Error parsing value '" + value + "' at (" + x + "," + y + ")");
                     }
 
-                    if (tileValue != 0) {
+                    /*if (tileValue != 0) {
                         this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), true, (float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
                     } else {
                         this.tiles[x][this.height - y - 1] = new Tile(null, false, (float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
+                    }*/
+                    switch(tileValue) {
+                        case 0:
+                            this.tiles[x][this.height - y - 1] = new Tile(null, false, LevelScreen.roomX + (float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
+                            break;
+                        case 1:
+                            this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), false, LevelScreen.roomX + (float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
+                            break;
+                        default:
+                            this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), true, LevelScreen.roomX + (float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
+                            break;
+
                     }
+
                 }
             }
         }

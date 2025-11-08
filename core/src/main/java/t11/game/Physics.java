@@ -2,6 +2,8 @@ package t11.game;
 
 import com.badlogic.gdx.math.Rectangle;
 
+import java.util.ArrayList;
+
 public final class Physics {
     private Physics() {}
 
@@ -57,7 +59,14 @@ public final class Physics {
         Rectangle playerBounds = player.getBounds();
         Rectangle coinBounds = coin.getBounds();
 
-        return playerBounds.overlaps(coinBounds);
+        return coinBounds.overlaps(playerBounds);
+    }
+
+    public static boolean trapTriggered(Player player, Trap trap) {
+        Rectangle playerBounds = player.getBounds();
+        Rectangle trapBounds = trap.getBounds();
+
+        return playerBounds.overlaps(trapBounds);
     }
 
 
