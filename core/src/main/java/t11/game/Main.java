@@ -30,8 +30,10 @@ public class Main extends Game {
 	private ScreenDispatch screens;
 
     //Variables for the timer coins and score, they are currently unused
-    public int coinCount = 0;
-    public int score = 0;
+    private int coinCount;
+    private int potsBroken;
+    private int trapsTriggered;
+    public int score;
     public float timeRemaining = 300;
 
     public Player player;
@@ -63,6 +65,9 @@ public class Main extends Game {
         screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player, camera, viewport));
 
         setScreen(screens.getScreen());
+
+        //
+
 	}
 
     @Override
@@ -79,8 +84,7 @@ public class Main extends Game {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         super.render(); //renders the current screen
         guiDraw();
-        if (!paused)
-            timeRemaining -= Gdx.graphics.getDeltaTime();
+        logic();
 	}
 
     @Override
@@ -135,7 +139,18 @@ public class Main extends Game {
         String minSecText = minutes.concat(":" + seconds);
         font.draw(batch, "Time remaining: ".concat(minSecText), 30, 470);
         batch.draw(clock, 7, 455);
+        //event counters
+        font.draw(batch, "Coins collected: ".concat(Integer.toString(coinCount)), 500, 470);
+        font.draw(batch, "Pots broken: ".concat(Integer.toString(potsBroken)), 500, 450);
+        font.draw(batch, "Traps triggered: ".concat(Integer.toString(trapsTriggered)), 500, 430);
+
         batch.end();
+    }
+
+    public void logic(){
+        if (!paused)
+            timeRemaining -= Gdx.graphics.getDeltaTime();
+
     }
 
 
