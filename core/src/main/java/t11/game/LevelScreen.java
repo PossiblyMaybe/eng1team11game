@@ -52,7 +52,7 @@ public class LevelScreen extends ScreenAdapter{
         this.paused = false;
 
 
-        player.position.set(320 - Player.getWidthPixels(), 200);
+        player.position.set(320 - player.getWidthPixels(), 200);
 
         target = new Vector2(320, 240);
 	}

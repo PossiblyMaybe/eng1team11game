@@ -19,7 +19,7 @@ public class Player implements GameEntity{
     private float dashCooldown = 0;
     public final Vector2 lastDirection = new Vector2();
 
-    public static float getWidthPixels() { return sprite.getRegionWidth() * scale.x; }
+    public float getWidthPixels() { return sprite.getRegionWidth() * scale.x; }
     public float getHeightPixels() { return sprite.getRegionHeight() * scale.y; }
 
 
