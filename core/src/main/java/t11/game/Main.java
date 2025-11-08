@@ -5,9 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Main extends Game {
@@ -16,6 +18,7 @@ public class Main extends Game {
     //on the screen to warrant needing SpriteCache. If we had a large open world it would make sense,
     //but not if we are only drawing one screen at a time
     public SpriteBatch batch;
+    public BitmapFont font;
 
     private OrthographicCamera camera;
     private FitViewport viewport;
@@ -26,18 +29,23 @@ public class Main extends Game {
 
 	private ScreenDispatch screens;
 
-    private TileMap tilemap;
-
     //Variables for the timer coins and score, they are currently unused
     public int coinCount = 0;
     public int score = 0;
     public float timeRemaining = 300;
 
     public Player player;
+    private Texture clock;
+    private Texture guiPiece;
+
+    //paused bool
+    private boolean paused;
 
 	@Override
 	public void create() {
+        //drawing stuff definitions
         batch = new SpriteBatch();
+        font = new BitmapFont();
 
         // Creates the orthographic camera and viewport
         camera = new OrthographicCamera();
@@ -47,26 +55,14 @@ public class Main extends Game {
 
         Gdx.graphics.setWindowedMode(800,600);
 
-        Gdx.graphics.setWindowedMode(800,600);
-
         player = new Player();
-
-        //Adds the test screen to the list of screens, this can later be replaced with
-        //an algorithm to select a bunch of screens
+        clock = new Texture("Clock.png");
+        guiPiece = new Texture("gui piece.png");
+        paused = false;
 
         screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player, camera, viewport));
 
-
-
-
         setScreen(screens.getScreen());
-
-        //tilemap = new TileMap("testMap.csv", new SpriteSheet("testSpriteSheet.png", 8));
-
-
-
-
-
 	}
 
     @Override
@@ -82,6 +78,9 @@ public class Main extends Game {
         Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         super.render(); //renders the current screen
+        guiDraw();
+        if (!paused)
+            timeRemaining -= Gdx.graphics.getDeltaTime();
 	}
 
     @Override
@@ -104,13 +103,39 @@ public class Main extends Game {
 
         //something to note is that I made it so that you can change the direction while dashing
         if (Gdx.input.isKeyPressed(Input.Keys.UP) ^ Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            direction.y = Gdx.input.isKeyPressed(Input.Keys.UP) ? 1: -1;
+            direction.y = Gdx.input.isKeyPressed(Input.Keys.UP) ? 1 : -1;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) ^ Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             direction.x = Gdx.input.isKeyPressed(Input.Keys.RIGHT) ? 1 : -1;
         }
 
-        player.move(direction, Gdx.input.isKeyPressed(Input.Keys.SPACE), Gdx.graphics.getDeltaTime());
+        player.move(direction, Gdx.input.isKeyPressed(Input.Keys.SPACE), Gdx.graphics.getDeltaTime(), paused);
+
+
+        //test for pause
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+
+            if (paused){
+                paused = false;
+                screens.getScreen().resume();
+            } else {
+                paused = true;
+                screens.getScreen().pause();
+            }
+        }
+
+    }
+
+    public void guiDraw(){
+        batch.begin();
+        //draw gui elements here
+        batch.draw(guiPiece, 0, 448, 0, 0, 32, 16, 6, 2, 0, 0, 0, 32, 16, false, false);
+        String minutes = Integer.toString((int) timeRemaining / 60);
+        String seconds = Integer.toString((int) timeRemaining % 60);
+        String minSecText = minutes.concat(":" + seconds);
+        font.draw(batch, "Time remaining: ".concat(minSecText), 30, 470);
+        batch.draw(clock, 7, 455);
+        batch.end();
     }
 
 
