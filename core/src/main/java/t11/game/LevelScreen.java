@@ -27,6 +27,8 @@ public class LevelScreen extends ScreenAdapter{
     String levelJSON;
     Player player;
 
+    private boolean paused;
+
 
     public LevelScreen(String levelJSON, SpriteBatch batch, Player player,
                        OrthographicCamera camera, Viewport viewport) {
@@ -36,6 +38,7 @@ public class LevelScreen extends ScreenAdapter{
         this.levelJSON = levelJSON;
         this.player = player;
         this.camera = camera;
+        this.paused = false;
 
         player.position.set(0, 200);
 
@@ -86,27 +89,17 @@ public class LevelScreen extends ScreenAdapter{
 
     @Override
     public void dispose(){
-        //TODO: Make this dispose otherwise we get a shit ton of memory leaks
+        //does nothing :)
     }
 
     @Override
     public void render(float delta){
-        update(delta);
+        if (!paused)
+            physics(delta);
+        draw();
+    }
 
-
-            
-
-
-        if (player.position.x + (player.getWidthPixels() / 2) < target.x - 320f) {
-            target.x -= 640f;
-            CameraStyles.lockOnTarget(camera, target);
-        }
-        if (player.position.x + (player.getWidthPixels() / 2) > target.x + 320f) {
-            target.x += 640f;
-            CameraStyles.lockOnTarget(camera, target);
-        }
-        batch.setProjectionMatrix(camera.combined);
-
+    public void draw(){
         batch.begin();
         //draw all the tiles
         for (Tile[] tileRow: tileMap.getTiles()){
@@ -122,6 +115,32 @@ public class LevelScreen extends ScreenAdapter{
             batch.draw(obj.getSprite(), obj.getPos().x, obj.getPos().y);
         }
         batch.end();
+    }
+
+    public void physics(float delta){
+        update(delta);
+
+        if (player.position.x + (player.getWidthPixels() / 2) < target.x - 320f) {
+            target.x -= 640f;
+            CameraStyles.lockOnTarget(camera, target);
+        }
+        if (player.position.x + (player.getWidthPixels() / 2) > target.x + 320f) {
+            target.x += 640f;
+            CameraStyles.lockOnTarget(camera, target);
+        }
+        batch.setProjectionMatrix(camera.combined);
+    }
+
+    @Override
+    public void pause(){
+        paused = true;
+        System.out.println("Paused");
+    }
+
+    @Override
+    public void resume(){
+        paused = false;
+        System.out.println("Unpaused");
     }
 
 }

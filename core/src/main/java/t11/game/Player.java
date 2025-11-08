@@ -51,10 +51,12 @@ public class Player implements GameEntity{
     public float getRotation() { return rotation; }
 
 
-    public void move(Vector2 direction, boolean dashTry, float delta) {
+    public void move(Vector2 direction, boolean dashTry, float delta, boolean paused) {
         /* Takes a Vector2 for direction, a boolean to check if the player is dashing and
         delta which is deltaTime. If the player is dashing then their speed is multiplied by DASHMULT
         */
+        if (paused)
+            return;
 
         if (dashTry && dashCooldown <= 0) {
             isDashing = true;
