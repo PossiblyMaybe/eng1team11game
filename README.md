@@ -9,7 +9,7 @@ This project was generated with a template including simple application launcher
 ### PDFs:
 - [Requirements]()
 - [Architecture]()
-- [Method Selection and Planning]()
+- [Method Selection and Planning](https://drive.google.com/open?id=1-ZwqyeLFDMuxPolpbPpPfbenKGEcH6Q7&usp=drive_copy)
 - [Risk Assessment and Mitigation]()
 - [Implementation]()
 ### Executable JAR:
