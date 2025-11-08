@@ -7,10 +7,10 @@ This project was generated with a template including simple application launcher
 
 ## Links
 ### PDFs:
-- [Requirements]()
+- [Requirements](https://drive.google.com/open?id=1YRm9ibuXdxPoXoQ9FpuN6CCZU18TGqme&usp=drive_copy)
 - [Architecture]()
 - [Method Selection and Planning](https://drive.google.com/open?id=1-ZwqyeLFDMuxPolpbPpPfbenKGEcH6Q7&usp=drive_copy)
-- [Risk Assessment and Mitigation]()
+- [Risk Assessment and Mitigation](https://drive.google.com/open?id=1w7KW20eSDxNYc-xmj-bfqXltp_giHH6S&usp=drive_copy)
 - [Implementation]()
 ### Executable JAR:
 - [ExcapeFromUniJAR]()
