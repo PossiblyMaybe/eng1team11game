@@ -19,12 +19,12 @@ This project was generated with a template including simple application launcher
 
 ## Plan
 ### Week 1 plan
-![Week 1 Project Plan](https://github.com/PossiblyMaybe/eng1team11game/blob/Enrico164-patch-1/Week%20plan%20images/Week1Plan.jpg)
+![Week 1 Project Plan](https://github.com/PossiblyMaybe/eng1team11game/tree/main/Week%20plan%20images/Week1Plan.jpg)
 
 The initial plan allows one week for each phase of the project. 
 
 ### Week 2 plan
-![Week 2 Project Plan](https://github.com/PossiblyMaybe/eng1team11game/blob/Enrico164-patch-1/Week%20plan%20images/Week2Plan.jpg)
+![Week 2 Project Plan](https://github.com/PossiblyMaybe/eng1team11game/tree/main/Week%20plan%20images/Week2Plan.jpg)
 
 The website set up took less time than expected so the Method Selection and Planning phase began earlier, giving us more time before the deadline in case of delays in later stages. 
 
@@ -32,7 +32,7 @@ The website set up took less time than expected so the Method Selection and Plan
 The plan remained the same during these weeks. 
 
 ### Week 6 plan
-![Week 6 Project Plan](https://github.com/PossiblyMaybe/eng1team11game/blob/Enrico164-patch-1/Week%20plan%20images/Week6Plan.jpg)
+![Week 6 Project Plan](https://github.com/PossiblyMaybe/eng1team11game/tree/main/Week%20plan%20images/Week6Plan.jpg)
 
 Implementation took longer than initially planned, but due to the previous edit of the plan there was enough time to accommodate for this. 
 
@@ -40,7 +40,7 @@ Implementation took longer than initially planned, but due to the previous edit 
 ### Risk Assessment
 Risk Register:
 
-![Risk Register](https://github.com/PossiblyMaybe/eng1team11game/blob/Enrico164-patch-1/Week%20plan%20images/RiskRegister.png)
+![Risk Register](https://github.com/PossiblyMaybe/eng1team11game/tree/main/Week%20plan%20images/RiskRegister.png)
 
 ## Platforms
 
