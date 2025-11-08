@@ -39,7 +39,8 @@ Implementation took longer than initially planned, but due to the previous edit 
 ## Additional Content
 ### Risk Assessment
 Risk Register:
-![Risk Register]()
+
+![Risk Register](https://github.com/PossiblyMaybe/eng1team11game/blob/Enrico164-patch-1/Week%20plan%20images/RiskRegister.png)
 
 ## Platforms
 
