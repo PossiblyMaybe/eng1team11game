@@ -3,19 +3,13 @@ package t11.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
-import java.util.ArrayList;
-import java.util.logging.Level;
 
 public class Main extends Game {
 
@@ -118,6 +112,9 @@ public class Main extends Game {
         batch.dispose();
         font.dispose();
         player.dispose();
+        clock.dispose();
+        guiPiece.dispose();
+        pausedGUI.dispose();
     }
 
     public void input() {
@@ -139,7 +136,7 @@ public class Main extends Game {
 
 
         //checks for the escape key to pause
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) && !gameOver){
 
             if (paused){
                 paused = false;
@@ -188,6 +185,7 @@ public class Main extends Game {
             screens.goToLast();
             setScreen(screens.getScreen());
             gameOver = true;
+            paused = false;
         }
     }
 
