@@ -1,5 +1,15 @@
 # EscapeFromUni
 
+
+### Tutorial
+- Movement is done via the up, down, left, and right arrows found to the rightward end of the keyboard.
+- Dashing can be performed by pressing the space bar.
+- Some parts of the environment can be broken by dashing into them.
+- Items can be collected by moving over them.
+- If the end of the maze is not reached within 5 minutes, you will lose the game.
+- If you reach the end of the maze within 5 minutes, you win.
+- Be careful, if you move over a trap and don't dash out of it you will be returned to the start of the room.
+
 ## Links
 ### PDFs:
 - [Requirements](https://drive.google.com/open?id=1YRm9ibuXdxPoXoQ9FpuN6CCZU18TGqme&usp=drive_copy)
