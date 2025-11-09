@@ -1,10 +1,5 @@
 # EscapeFromUni
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
-
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
-
-
 ## Links
 ### PDFs:
 - [Requirements](https://drive.google.com/open?id=1YRm9ibuXdxPoXoQ9FpuN6CCZU18TGqme&usp=drive_copy)
@@ -54,6 +49,12 @@ The current state of the system
 ![classDiagramCurrent](/eng1team11game/WebsiteImages/classDiagramCurrent.png)
 
 ## Additional Content
+
+A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
+
+This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+
+
 ### Platforms
 
 - `core`: Main module with the application logic shared by all platforms.
