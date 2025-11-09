@@ -24,7 +24,7 @@ This project was generated with a template including simple application launcher
 The initial plan allows one week for each phase of the project. 
 
 ### Week 2 plan
-![Week2Plan.jpg](https://github.com/PossiblyMaybe/eng1team11game/blob/main/Week%20plan%20images/Week2Plan.jpg)
+![Week2Plan.jpg](/eng1team11game/Week%20plan%20images/Week2Plan.jpg)
 
 The website set up took less time than expected so the Method Selection and Planning phase began earlier, giving us more time before the deadline in case of delays in later stages. 
 
