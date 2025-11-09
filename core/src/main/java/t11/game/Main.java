@@ -35,10 +35,11 @@ public class Main extends Game {
 
 	public ScreenDispatch screens;
 
-    //Variables for the timer coins and score, they are currently unused
-    public static int coinCount;
-    public static int potsBroken;
-    public static int trapsTriggered;
+    //Variables for the timer coins and score
+    //They need to be public static so they can be accessed from elsewhere
+    public static int coinCount = 0;
+    public static int potsBroken = 0;
+    public static int trapsTriggered = 0;
     public static float timeRemaining = 300;
 
     public Player player;
@@ -46,18 +47,18 @@ public class Main extends Game {
     private Texture guiPiece;
     private Texture pausedGUI;
 
-    //paused bool
+    //paused and gameOver bool
     private boolean paused = false;
     private boolean gameOver = false;
 
     @Override
 	public void create() {
+        /*Called when the game starts */
         //drawing stuff definitions
         batch = new SpriteBatch();
         font = new BitmapFont();
 
-
-        // Creates the orthographic camera and viewport
+        // Window stuff
         camera = new OrthographicCamera();
         viewport = new FitViewport(WINDOW_WIDTH, WINDOW_HEIGHT, camera);
         camera.position.set(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 0);
@@ -65,20 +66,19 @@ public class Main extends Game {
 
         Gdx.graphics.setWindowedMode(800,600);
 
+        //Instantiating player and some other stuff
         player = new Player();
         clock = new Texture("Clock.png");
         guiPiece = new Texture("gui piece.png");
         pausedGUI = new Texture("paused.png");
 
-
+        //Adds screens to the screens list. Currently hardcoded
         screens = new ScreenDispatch(new LevelScreen("levelJ0.json", batch, player, camera, viewport));
         screens.addScreen(new LevelScreen("levelJ1.json", batch, player, camera, viewport));
         screens.addScreen(new LevelScreen("levelJ2.json", batch, player, camera, viewport));
         screens.addScreen(new endScreen(batch, font));
 
         setScreen(screens.getScreen());
-
-        //
 
 	}
 
@@ -87,9 +87,9 @@ public class Main extends Game {
         // Updates the camera
         camera.update();
 
+        //checks for inputs
         input();
 
-        //idk what this does tbh i just know i need it
         batch.setProjectionMatrix(camera.combined);
 
         //clears the screen before drawing
@@ -99,7 +99,8 @@ public class Main extends Game {
             Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
         }
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        super.render(); //renders the current screen
+        //renders the current screen
+        super.render();
         guiDraw();
         logic();
         roomChangeCheck();
@@ -116,13 +117,13 @@ public class Main extends Game {
     public void dispose() {
         batch.dispose();
         font.dispose();
+        player.dispose();
     }
 
     public void input() {
+        /*Checks for the movement keys (Up, down, left and right) and for the space bar and escape key */
 
-
-        //This grabs the input for the player, currently it checks for
-        //the arrow keys and the space bar
+        //direction the player is moving
         Vector2 direction = new Vector2(0,0);
 
         //something to note is that I made it so that you can change the direction while dashing
@@ -137,7 +138,7 @@ public class Main extends Game {
             player.move(direction, Gdx.input.isKeyPressed(Input.Keys.SPACE), Gdx.graphics.getDeltaTime(), paused);
 
 
-        //test for pause
+        //checks for the escape key to pause
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
 
             if (paused){
@@ -152,9 +153,10 @@ public class Main extends Game {
     }
 
     public void guiDraw(){
+        /*Draws gui elements like the timer, pause menu and the event counters */
         batch.begin();
         //draw gui elements here
-        batch.draw(guiPiece, 0, 448, 0, 0, 32, 16, 6, 2, 0, 0, 0, 32, 16, false, false);
+        batch.draw(guiPiece, 0, 448, 32*6, 16*2);
         String minutes = Integer.toString((int) timeRemaining / 60);
         String seconds = Integer.toString((int) timeRemaining % 60);
         String minSecText;
@@ -163,6 +165,7 @@ public class Main extends Game {
         } else {
             minSecText = minutes.concat(":" + seconds);
         }
+        //draws timer
         font.draw(batch, "Time remaining: ".concat(minSecText), 30, 470);
         batch.draw(clock, 7, 455);
         //event counters
@@ -170,17 +173,18 @@ public class Main extends Game {
         font.draw(batch, "Pots broken: ".concat(Integer.toString(potsBroken)), 500, 450);
         font.draw(batch, "Traps triggered: ".concat(Integer.toString(trapsTriggered)), 500, 430);
 
-        if (paused)
+        if (paused) //draws the pause screen if paused
             batch.draw(pausedGUI, 176,312, 288, 96);
 
         batch.end();
     }
 
     public void logic(){
-        if (!paused && !gameOver)
+        /*Deals with timer related logic, like decrementing time by deltaTime each frame and ending the game if you run out of time */
+        if (!paused && !gameOver) //decrements time
             timeRemaining -= Gdx.graphics.getDeltaTime();
 
-        if (timeRemaining < 0){
+        if (timeRemaining < 0){ //ends the game if you run out of time
             screens.goToLast();
             setScreen(screens.getScreen());
             gameOver = true;
@@ -188,11 +192,12 @@ public class Main extends Game {
     }
 
     public void roomChangeCheck(){
+        /*Checks to see if LevelScreen wants to change screen because the player went off-screen*/
         if (LevelScreen.roomTarget != -1){
             screens.gotoScreen(LevelScreen.roomTarget);
             setScreen(screens.getScreen());
             LevelScreen.roomTarget = -1;
-            if (screens.isLast())
+            if (screens.isLast()) //if the screen is the last one then set gameOver to true since it's the win screen
                 gameOver = true;
         }
     }

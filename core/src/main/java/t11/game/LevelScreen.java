@@ -33,10 +33,12 @@ public class LevelScreen extends ScreenAdapter{
 
     //this needs to be public static so it can be accessed by main
     public static int roomTarget = -1;
+    //if the player goes off-screen to one of those directions they will go to that room
     private int roomTargetUp;
     private int roomTargetRight;
     private int roomTargetDown;
     private int roomTargetLeft;
+    //origins are here for when the player falls into a trap and gets reset to the start of the room
     private float originX;
     private float originY;
 
@@ -58,22 +60,47 @@ public class LevelScreen extends ScreenAdapter{
 	}
 
     private void parseJSON(String levelJSON){
+        /*Parses the information from the JSON file given to it in this order:
+        {"tileMapInfo" :
+        {
+          "tileMapPath": [enter a csv file],
+          "spriteSheetPath": [enter the path to your spriteSheet],
+          "endFrame": [enter an integer for the last sprite in the spriteSheet],
+          "roomTargetUp": [enter the screen number this direction will go to, or -1 for none],
+          "roomTargetRight": [enter the screen number this direction will go to, or -1 for none],
+          "roomTargetDown": [enter the screen number this direction will go to, or -1 for none],
+          "roomTargetLeft": [enter the screen number this direction will go to, or -1 for none],
+          "originX": [enter pixel location],
+          "originY": [enter pixel location]
+        },
+      "levelObjects": [
+          [enter an object type]:
+          {
+            [enter object initialization attributes]: [enter value]
+            ...
+          }
+        ]}  */
+
         JsonReader reader = new JsonReader();
         JsonValue base = reader.parse(Gdx.files.internal(levelJSON));
         JsonValue tileMapInfo = base.get("tileMapInfo");
         JsonValue levelObjects = base.get("levelObjects");
 
+        //creates the tilemap
         tileMap = new TileMap(tileMapInfo.getString("tileMapPath"), tileMapInfo.getString("spriteSheetPath")
             , tileMapInfo.getInt("endFrame"));
 
+        //assigns the room pointers
         roomTargetUp = tileMapInfo.getInt("roomTargetUp");
         roomTargetRight = tileMapInfo.getInt("roomTargetRight");
         roomTargetDown = tileMapInfo.getInt("roomTargetDown");
         roomTargetLeft = tileMapInfo.getInt("roomTargetLeft");
 
+        //origin of the player
         originX = tileMapInfo.getFloat("originX");
         originY = tileMapInfo.getFloat("originY");
 
+        //adds all the objects
         for (JsonValue value: levelObjects){
             switch (value.getString("type")) {
                 case "coin":
@@ -92,16 +119,14 @@ public class LevelScreen extends ScreenAdapter{
 
 
     private void update(float delta) {
+        /*Checks for inputs to deal with movement physics */
         boolean up = Gdx.input.isKeyPressed(Input.Keys.UP);
         boolean down = Gdx.input.isKeyPressed(Input.Keys.DOWN);
         boolean left = Gdx.input.isKeyPressed(Input.Keys.LEFT);
         boolean right = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
         Vector2 vel = player.getVelocity(up, down, left, right);
 
-
-
         Physics.moveWithTileCollisions(player, tileMap, delta, vel.x, vel.y);
-
     }
 
 
@@ -116,7 +141,10 @@ public class LevelScreen extends ScreenAdapter{
 
     @Override
     public void dispose(){
-        //does nothing :)
+        for (GameEntity obj: scene){
+            if (!(obj instanceof Player))
+                obj.dispose();
+        }
     }
 
     @Override

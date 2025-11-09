@@ -43,6 +43,6 @@ public class endScreen extends ScreenAdapter {
     }
 
     public void restart(){
-
+        /*Currently empty, but it's here if anyone wants to add a way to restart the game once it ends */
     }
 }

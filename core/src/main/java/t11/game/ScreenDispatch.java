@@ -19,24 +19,26 @@ public class ScreenDispatch {
 	}
 
 	public void addScreen(Screen screen){
+        /*Adds a screen to the list of screens contained */
 		screens.add(screen);
         size += 1;
 	}
 
-	public Screen toNextScreen(){
+	public boolean toNextScreen(){
+        /*Goes to the next screen and returns true if successful*/
 		if (currentIndex + 1 >= screens.size()){
-			return screens.get(currentIndex);
+			return false;
 		}
-        screens.get(currentIndex).dispose();
-		currentIndex++;
-		return screens.get(currentIndex);
+		return gotoScreen(currentIndex + 1);
 	}
 
     public void goToLast(){
+        /*Goes to the last screen */
         gotoScreen(screens.size() -1);
     }
 
     public boolean gotoScreen(int index){
+        /*Goes to a specified screen, and returns true if it was successful */
         if (index < 0 || index >= size)
             return false;
         screens.get(currentIndex).dispose();
@@ -47,10 +49,12 @@ public class ScreenDispatch {
 
     public Screen getScreen()
     {
+        /*Returns the current screen */
         return screens.get(currentIndex);
     }
 
     public boolean isLast(){
+        /*Checks if the current screen is the last one, it is used to see if the player has made it to the end screen */
         return currentIndex == screens.size() - 1;
     }
 

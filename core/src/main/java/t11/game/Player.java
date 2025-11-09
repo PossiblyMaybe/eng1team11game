@@ -79,4 +79,9 @@ public class Player implements GameEntity{
 
         dashCooldown -= delta;
     }
+
+    @Override
+    public void dispose(){
+        sprite.dispose();
+    }
 }

@@ -13,7 +13,6 @@ public class Coin implements GameEntity{
     private float width;
     public boolean collected;
 
-    //it's a coin :)
 
     public Coin(float x, float y){
         position.x = x;
@@ -46,5 +45,10 @@ public class Coin implements GameEntity{
     @Override
     public float getRotation() {
         return rotation;
+    }
+
+    @Override
+    public void dispose(){
+        sprite.dispose();
     }
 }
