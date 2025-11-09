@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class endScreen extends ScreenAdapter {
+public class EndScreen extends ScreenAdapter {
 
 
     private SpriteBatch batch;
