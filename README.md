@@ -45,10 +45,11 @@ Risk Register:
 
 ## Architecture Diagrams
 The first diagram to contain the entire state of the project at that time.
-![classDiagramV1.png](https://github.com/PossiblyMaybe/eng1team11game/blob/main/classDiagramV1.png)
+![classDiagramV1](https://github.com/PossiblyMaybe/eng1team11game/blob/main/classDiagramV1.png)
 
 
-
+The current state of the system
+![classDiagramCurrent](https://github.com/PossiblyMaybe/eng1team11game/blob/main/classDiagramCurrent.png)
 
 ## Additional Content
 ### Platforms
