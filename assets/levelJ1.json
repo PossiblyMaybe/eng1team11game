@@ -1,0 +1,15 @@
+{
+  "tileMapInfo" :
+    {
+      "tileMapPath": "tileMap1.csv",
+      "spriteSheetPath": "spriteSheet.png",
+      "endFrame": 87,
+      "roomTargetUp": -1,
+      "roomTargetRight": 2,
+      "roomTargetDown": -1,
+      "roomTargetLeft": 0,
+      "originX": 300,
+      "originY": 220
+    },
+  "levelObjects": []
+}

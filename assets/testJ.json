@@ -1,9 +1,0 @@
-{
-  "tileMapInfo" :
-    {
-      "tileMapPath": "startRoom.csv",
-      "spriteSheetPath": "testSpriteSheet.png",
-      "endFrame": 8
-    },
-  "levelObjects": []
-}

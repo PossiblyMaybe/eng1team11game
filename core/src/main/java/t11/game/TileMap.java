@@ -22,8 +22,7 @@ public class TileMap {
     }
 
     private void load(String filePath) {
-
-        //creates a list of lines and assigns the height, width and array size for tile
+        /*creates a list of lines and assigns the height, width and array size for tile */
         String fileData = Gdx.files.internal(filePath).readString().trim();
         String[] lines = fileData.split("\\r?\\n");
         this.height = lines.length;
@@ -46,24 +45,12 @@ public class TileMap {
                         System.err.println("Error parsing value '" + value + "' at (" + x + "," + y + ")");
                     }
 
-                    /*if (tileValue != 0) {
-                        this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), true, (float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
-                    } else {
-                        this.tiles[x][this.height - y - 1] = new Tile(null, false, (float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
-                    }*/
-                    switch(tileValue) {
-                        case 0:
-                           this.tiles[x][this.height - y - 1] = new Tile(null, false,(float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
-                            break;
-                        case 1:
-                            this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), false,(float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
-                            break;
-                        default:
-                            this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), true,(float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
-                            break;
-
-                    }
-
+                    if (tileValue == -1) //if the tile is -1 then it is empty
+                        this.tiles[x][this.height - y - 1] = new Tile(null, false,(float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
+                    else if (tileValue >= 11) //if it is >= 11 then it should be solid
+                        this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), true,(float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
+                    else //else it is not solid
+                        this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), false,(float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
                 }
             }
         }
@@ -75,6 +62,7 @@ public class TileMap {
     }
 
     public boolean isSolidAt(int tileX, int tileY) {
+        /*Checks if the current tile is solid for physics checks */
         if (tileX >= 0 && tileY >= 0 && tileX < this.width && tileY < this.height) {
             Tile tile = this.tiles[tileX][tileY];
             return tile != null && tile.isSolid();
