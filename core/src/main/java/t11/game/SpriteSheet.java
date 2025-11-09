@@ -26,8 +26,8 @@ public class SpriteSheet {
 
         if (vframe >= height){ return frames[0][0];}
 
-        return frames[hframe][vframe];
 
+        return frames[vframe][hframe];
     }
 
     public TextureRegion getTexture()

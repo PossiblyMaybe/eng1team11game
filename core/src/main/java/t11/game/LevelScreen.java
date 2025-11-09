@@ -22,22 +22,23 @@ public class LevelScreen extends ScreenAdapter{
     //makes an arraylist for all objects in the scene
     ArrayList<GameEntity> scene = new ArrayList<GameEntity>();
     private SpriteBatch batch;
-    public ShapeRenderer shapeRenderer = new ShapeRenderer();
-    public String timeString = "";
     private final OrthographicCamera camera;
-    private Vector2 target;
-
     private String levelJSON;
     private Player player;
 
     private ArrayList<Coin> coins = new ArrayList<>();
     private ArrayList<Trap> traps = new ArrayList<>();
 
-    public float coinCount = 0;
-    public int score = 0;
-    public float timeRemaining = 300;
-
     private boolean paused = false;
+
+    //this needs to be public static so it can be accessed by main
+    public static int roomTarget = -1;
+    private int roomTargetUp;
+    private int roomTargetRight;
+    private int roomTargetDown;
+    private int roomTargetLeft;
+    private float originX;
+    private float originY;
 
 
 
@@ -52,9 +53,8 @@ public class LevelScreen extends ScreenAdapter{
         this.paused = false;
 
 
-        player.position.set(320 - Player.getWidthPixels(), 200);
+        player.position.set(320 - player.getWidthPixels(), 200);
 
-        target = new Vector2(320, 240);
 	}
 
     private void parseJSON(String levelJSON){
@@ -66,15 +66,20 @@ public class LevelScreen extends ScreenAdapter{
         tileMap = new TileMap(tileMapInfo.getString("tileMapPath"), tileMapInfo.getString("spriteSheetPath")
             , tileMapInfo.getInt("endFrame"));
 
+        roomTargetUp = tileMapInfo.getInt("roomTargetUp");
+        roomTargetRight = tileMapInfo.getInt("roomTargetRight");
+        roomTargetDown = tileMapInfo.getInt("roomTargetDown");
+        roomTargetLeft = tileMapInfo.getInt("roomTargetLeft");
+
+        originX = tileMapInfo.getFloat("originX");
+        originY = tileMapInfo.getFloat("originY");
+
         for (JsonValue value: levelObjects){
             switch (value.getString("type")) {
                 case "coin":
-    
                     coins.add(new Coin(value.getFloat("x"),value.getFloat("y")));
                     break;
                 case "pot":
-                    break;
-                case "door":
                     break;
                 case "trap":
                     traps.add(new Trap(value.getFloat("x"),value.getFloat("y")));
@@ -83,27 +88,6 @@ public class LevelScreen extends ScreenAdapter{
         }
         scene.addAll(coins);
         scene.addAll(traps);
-    }
-
-    public void drawRooms() {
-        camera.update();
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        // draw tiles
-        for (Tile[] tileRow: tileMap.getTiles()){
-            for (Tile tile: tileRow){
-                if (tile.getSprite() != null) {
-                    batch.draw(tile.getSprite(), tile.getPos().x, tile.getPos().y, target.x - 320f, 0,
-                        16, 16, (float)2.5, (float)2.5, 0);
-                }
-            }
-        }
-
-        // draw objects
-        for (GameEntity obj: scene){
-            batch.draw(obj.getSprite(), obj.getPos().x, obj.getPos().y);
-        }
-        batch.end();
     }
 
 
@@ -126,8 +110,8 @@ public class LevelScreen extends ScreenAdapter{
     public void show() {
         parseJSON(levelJSON);
         scene.add(player);
-        drawRooms();
-    
+        draw();
+
     }
 
     @Override
@@ -145,34 +129,42 @@ public class LevelScreen extends ScreenAdapter{
 
     public void draw(){
         batch.begin();
-        
-	for (Tile[] tileRow: tileMap.getTiles()){
-		for (Tile tile: tileRow){
-			if (tile.getSprite() != null){
-				batch.draw(tile.getSprite(), tile.getPos().x, tile.getPos().y, 0,0,16,16,2.5f,2.5f,0);
-			}
-		}
-	}
 
-	for (GameEntity obj: scene){
-		batch.draw(obj.getSprite(), obj.getPos().x, obj.getPos().y);
-	}
-        batch.end();
+        for (Tile[] tileRow: tileMap.getTiles()){
+            for (Tile tile: tileRow){
+                if (tile.getSprite() != null){
+                    batch.draw(tile.getSprite(), tile.getPos().x, tile.getPos().y, 40, 40);
+                }
+            }
+        }
+
+        for (GameEntity obj: scene){
+            batch.draw(obj.getSprite(), obj.getPos().x, obj.getPos().y, 16*obj.getScale().x, 16*obj.getScale().y);
+        }
+            batch.end();
 
     }
 
     public void physics(float delta){
         update(delta);
 
-        if (player.position.x + (player.getWidthPixels() / 2) < target.x - 320f) {
-            target.x -= 640f;
-            CameraStyles.lockOnTarget(camera, target);
+        if (player.position.x < 0){
+            player.position.x = 599;
+            roomTarget = roomTargetLeft;
+
+        } else if (player.position.x > 600){
+            player.position.x = 1;
+            roomTarget = roomTargetRight;
         }
-        if (player.position.x + (player.getWidthPixels() / 2) > target.x + 320f) {
-            target.x += 640f;
-            CameraStyles.lockOnTarget(camera, target);
+
+        if (player.position.y < 0){
+            player.position.y = 439;
+            roomTarget = roomTargetDown;
+        } else if (player.position.y > 440) {
+            player.position.y = 1;
+            roomTarget = roomTargetUp;
         }
-        batch.setProjectionMatrix(camera.combined);
+
     }
 
     @Override
@@ -186,6 +178,7 @@ public class LevelScreen extends ScreenAdapter{
         paused = false;
         System.out.println("Unpaused");
     }
+
 
 }
 

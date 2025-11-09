@@ -32,6 +32,10 @@ public class ScreenDispatch {
 		return screens.get(currentIndex);
 	}
 
+    public void goToLast(){
+        gotoScreen(screens.size() -1);
+    }
+
     public boolean gotoScreen(int index){
         if (index < 0 || index >= size)
             return false;
@@ -44,6 +48,10 @@ public class ScreenDispatch {
     public Screen getScreen()
     {
         return screens.get(currentIndex);
+    }
+
+    public boolean isLast(){
+        return currentIndex == screens.size() - 1;
     }
 
 }

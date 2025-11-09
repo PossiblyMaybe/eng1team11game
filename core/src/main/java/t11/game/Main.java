@@ -27,7 +27,7 @@ public class Main extends Game {
 
     private OrthographicCamera camera;
     private FitViewport viewport;
-   
+
 
     // Window size constants
     private static final float WINDOW_WIDTH = 640;
@@ -36,18 +36,19 @@ public class Main extends Game {
 	public ScreenDispatch screens;
 
     //Variables for the timer coins and score, they are currently unused
-    private int coinCount;
-    private int potsBroken;
-    private int trapsTriggered;
-    public int score;
-    public float timeRemaining = 300;
+    public static int coinCount;
+    public static int potsBroken;
+    public static int trapsTriggered;
+    public static float timeRemaining = 300;
 
     public Player player;
     private Texture clock;
     private Texture guiPiece;
+    private Texture pausedGUI;
 
     //paused bool
     private boolean paused = false;
+    private boolean gameOver = false;
 
     @Override
 	public void create() {
@@ -67,9 +68,13 @@ public class Main extends Game {
         player = new Player();
         clock = new Texture("Clock.png");
         guiPiece = new Texture("gui piece.png");
-        
+        pausedGUI = new Texture("paused.png");
 
-        screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player, camera, viewport));
+
+        screens = new ScreenDispatch(new LevelScreen("levelJ0.json", batch, player, camera, viewport));
+        screens.addScreen(new LevelScreen("levelJ1.json", batch, player, camera, viewport));
+        screens.addScreen(new LevelScreen("levelJ2.json", batch, player, camera, viewport));
+        screens.addScreen(new endScreen(batch, font));
 
         setScreen(screens.getScreen());
 
@@ -88,11 +93,16 @@ public class Main extends Game {
         batch.setProjectionMatrix(camera.combined);
 
         //clears the screen before drawing
-        Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
+        if (gameOver){
+            Gdx.gl.glClearColor(0.0f,255.0f,0.0f,1.0f);
+        } else {
+            Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
+        }
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         super.render(); //renders the current screen
         guiDraw();
         logic();
+        roomChangeCheck();
 	}
 
     @Override
@@ -110,7 +120,7 @@ public class Main extends Game {
 
     public void input() {
 
-       
+
         //This grabs the input for the player, currently it checks for
         //the arrow keys and the space bar
         Vector2 direction = new Vector2(0,0);
@@ -123,7 +133,8 @@ public class Main extends Game {
             direction.x = Gdx.input.isKeyPressed(Input.Keys.RIGHT) ? 1 : -1;
         }
 
-        player.move(direction, Gdx.input.isKeyPressed(Input.Keys.SPACE), Gdx.graphics.getDeltaTime(), paused);
+        if (!gameOver)
+            player.move(direction, Gdx.input.isKeyPressed(Input.Keys.SPACE), Gdx.graphics.getDeltaTime(), paused);
 
 
         //test for pause
@@ -146,7 +157,12 @@ public class Main extends Game {
         batch.draw(guiPiece, 0, 448, 0, 0, 32, 16, 6, 2, 0, 0, 0, 32, 16, false, false);
         String minutes = Integer.toString((int) timeRemaining / 60);
         String seconds = Integer.toString((int) timeRemaining % 60);
-        String minSecText = minutes.concat(":" + seconds);
+        String minSecText;
+        if (timeRemaining % 60 < 10){
+            minSecText = minutes.concat(":0" + seconds);
+        } else {
+            minSecText = minutes.concat(":" + seconds);
+        }
         font.draw(batch, "Time remaining: ".concat(minSecText), 30, 470);
         batch.draw(clock, 7, 455);
         //event counters
@@ -154,13 +170,31 @@ public class Main extends Game {
         font.draw(batch, "Pots broken: ".concat(Integer.toString(potsBroken)), 500, 450);
         font.draw(batch, "Traps triggered: ".concat(Integer.toString(trapsTriggered)), 500, 430);
 
+        if (paused)
+            batch.draw(pausedGUI, 176,312, 288, 96);
+
         batch.end();
     }
 
     public void logic(){
-        if (!paused)
+        if (!paused && !gameOver)
             timeRemaining -= Gdx.graphics.getDeltaTime();
 
+        if (timeRemaining < 0){
+            screens.goToLast();
+            setScreen(screens.getScreen());
+            gameOver = true;
+        }
+    }
+
+    public void roomChangeCheck(){
+        if (LevelScreen.roomTarget != -1){
+            screens.gotoScreen(LevelScreen.roomTarget);
+            setScreen(screens.getScreen());
+            LevelScreen.roomTarget = -1;
+            if (screens.isLast())
+                gameOver = true;
+        }
     }
 
 

@@ -9,18 +9,19 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Player implements GameEntity{
     public final Vector2 position = new Vector2(0,0);
-    private static final Vector2 scale = new Vector2(  1f,1f);
+    private static final Vector2 scale = new Vector2(2f,2f);
     private float rotation = 0;
-    private static TextureRegion sprite = new TextureRegion(new Texture("bob.png"));
+    private final SpriteSheet sprite = new SpriteSheet("entities.png", 5);
 
-    public static float SPEED = 200f;
-    private final static float DASHMULT = 2;
+    public final float SPEED = 200f;
+    private final float DASHMULT = 2;
     private boolean isDashing = false;
     private float dashCooldown = 0;
     public final Vector2 lastDirection = new Vector2();
 
-    public static float getWidthPixels() { return sprite.getRegionWidth() * scale.x; }
-    public float getHeightPixels() { return sprite.getRegionHeight() * scale.y; }
+    public float getWidthPixels() { return sprite.getTexture().getRegionWidth() * scale.x; }
+    public float getHeightPixels() { return (sprite.getTexture().getRegionHeight()-2) * scale.y; }
+    //note the sprite here has a height of 14 pixels not 16
 
 
     public Player() { }
@@ -39,7 +40,7 @@ public class Player implements GameEntity{
     }
 
     @Override
-    public TextureRegion getSprite() { return sprite; }
+    public TextureRegion getSprite() { return sprite.getTexture(); }
 
     @Override
     public Vector2 getPos() { return position; }

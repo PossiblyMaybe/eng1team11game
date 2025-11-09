@@ -51,8 +51,15 @@ public class TileMap {
                     } else {
                         this.tiles[x][this.height - y - 1] = new Tile(null, false, (float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
                     }*/
+                    if (tileValue == -1)
+                        this.tiles[x][this.height - y - 1] = new Tile(null, false,(float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
+                    else if (tileValue >= 11)
+                        this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), true,(float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
+                    else
+                        this.tiles[x][this.height - y - 1] = new Tile(spriteSheet.getTexture(tileValue), false,(float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
+                    /*
                     switch(tileValue) {
-                        case 0:
+                        case -1:
                            this.tiles[x][this.height - y - 1] = new Tile(null, false,(float)(x * TILE_SIZE), (float)((this.height - y - 1) * TILE_SIZE));
                             break;
                         case 1:
@@ -63,7 +70,7 @@ public class TileMap {
                             break;
 
                     }
-
+                    */
                 }
             }
         }
