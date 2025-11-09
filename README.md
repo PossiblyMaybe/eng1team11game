@@ -36,18 +36,24 @@ The plan remained the same during these weeks.
 
 Implementation took longer than initially planned, but due to the previous edit of the plan there was enough time to accommodate for this. 
 
-## Additional Content
-### Risk Assessment
+
+## Risk Assessment
 Risk Register:
 
 ![Risk Register](https://github.com/PossiblyMaybe/eng1team11game/blob/main/Week%20plan%20images/RiskRegister.png)
 
-## Platforms
+
+## Architecture Diagrams
+![classDiagramV1.png]
+The first class diagram to contain the entire state of the project at that time.
+
+## Additional Content
+### Platforms
 
 - `core`: Main module with the application logic shared by all platforms.
 - `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
 
-## Gradle
+### Gradle
 
 This project uses [Gradle](https://gradle.org/) to manage dependencies.
 The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
