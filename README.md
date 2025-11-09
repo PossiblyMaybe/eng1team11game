@@ -1,9 +1,14 @@
 # EscapeFromUni
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
 
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
-
+### Tutorial
+- Movement is done via the up, down, left, and right arrows found to the rightward end of the keyboard.
+- Dashing can be performed by pressing the space bar.
+- Some parts of the environment can be broken by dashing into them.
+- Items can be collected by moving over them.
+- If the end of the maze is not reached within 5 minutes, you will lose the game.
+- If you reach the end of the maze within 5 minutes, you win.
+- Be careful, if you move over a trap and don't dash out of it you will be returned to the start of the room.
 
 ## Links
 ### PDFs:
@@ -51,9 +56,14 @@ The first diagram to contain the entire state of the project at that time.
 
 
 The current state of the system
-![classDiagramCurrent](/eng1team11game/WebsiteImages/classDiagramCurrent.png)
 
 ## Additional Content
+
+A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
+
+This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+
+
 ### Platforms
 
 - `core`: Main module with the application logic shared by all platforms.
