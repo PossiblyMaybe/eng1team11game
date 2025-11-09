@@ -12,4 +12,5 @@ public interface GameEntity {
     public Vector2 getScale();
     public float getRotation();
     public Rectangle getBounds();
+    public void dispose();
 }
