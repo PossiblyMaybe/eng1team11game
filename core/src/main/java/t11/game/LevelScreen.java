@@ -57,6 +57,8 @@ public class LevelScreen extends ScreenAdapter{
 
         player.position.set(320 - player.getWidthPixels(), 200);
 
+        
+        parseJSON(levelJSON);
 	}
 
     private void parseJSON(String levelJSON){
@@ -133,7 +135,6 @@ public class LevelScreen extends ScreenAdapter{
 
     @Override
     public void show() {
-        parseJSON(levelJSON);
         scene.add(player);
         draw();
 
