@@ -56,7 +56,7 @@ The first diagram to contain the entire state of the project at that time.
 
 
 The current state of the system
-![classDiagramCurrent](/eng1team11game/WebsiteImages/classDiagramCurrent.png)
+
 ## Additional Content
 
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
