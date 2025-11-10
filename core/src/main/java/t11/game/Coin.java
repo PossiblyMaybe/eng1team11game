@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * It's a coin :)
+ */
 public class Coin implements GameEntity{
     public final Vector2 position = new Vector2();
     private final Vector2 scale = new Vector2(1,1);

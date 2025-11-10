@@ -1,12 +1,13 @@
 package t11.game;
 
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-
+/**
+ * This is the player class and it handles movement and dashing of the plauer
+ */
 public class Player implements GameEntity{
     public final Vector2 position = new Vector2(0,0);
     private static final Vector2 scale = new Vector2(2f,2f);
@@ -26,8 +27,20 @@ public class Player implements GameEntity{
 
     public Player() { }
 
+    /**
+     *
+     * @return returns a rectangle used for the players hitbox
+     */
     public Rectangle getBounds() { return new Rectangle(position.x, position.y, getWidthPixels(), getHeightPixels()); }
 
+    /**
+     *
+     * @param up is the player pressing up
+     * @param down is the player pressing down
+     * @param left is the player pressing left
+     * @param right is the player pressing right
+     * @return returns the players direction
+     */
     public Vector2 getVelocity(boolean up, boolean down, boolean left, boolean right) {
         float velocityX = (right ? 1f : 0f) - (left ? 1f : 0f);
         float velocityY = (up ? 1f : 0f) - (down ? 1f : 0f);
@@ -53,7 +66,13 @@ public class Player implements GameEntity{
     @Override
     public float getRotation() { return rotation; }
 
-
+    /**
+     * Handles player movement
+     * @param direction the current direction the player is going in
+     * @param dashTry if the player is trying to dash
+     * @param delta deltaTime
+     * @param paused is the game paused
+     */
     public void move(Vector2 direction, boolean dashTry, float delta, boolean paused) {
         /* Takes a Vector2 for direction, a boolean to check if the player is dashing and
         delta which is deltaTime. If the player is dashing then their speed is multiplied by DASHMULT
