@@ -2,38 +2,37 @@ package t11.game;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import java.util.ArrayList;
-
 public final class Physics {
     private Physics() {}
 
+
     public static void moveWithTileCollisions(Player player, TileMap map, float dt, float vx, float vy) {
-        float ts = map.getTileSize();
+        float tileSize = map.getTileSize();
         Rectangle playerBounds = player.getBounds();
 
         // X axis:
         float dx = vx * dt;
         playerBounds.x += dx;
-        if (intersectsSolid(map, playerBounds, ts)) {
+        if (intersectileSizeSolid(map, playerBounds, tileSize)) {
             if (dx > 0) {
-                int tileRight = (int)Math.floor((playerBounds.x + playerBounds.width - 1) / ts);
-                playerBounds.x = tileRight * ts - playerBounds.width;
+                int tileRight = (int)Math.floor((playerBounds.x + playerBounds.width - 1) / tileSize);
+                playerBounds.x = tileRight * tileSize - playerBounds.width;
             } else if (dx < 0) {
-                int tileLeft = (int)Math.floor(playerBounds.x / ts);
-                playerBounds.x = (tileLeft + 1) * ts;
+                int tileLeft = (int)Math.floor(playerBounds.x / tileSize);
+                playerBounds.x = (tileLeft + 1) * tileSize;
             }
         }
 
         // Y axis:
         float dy = vy * dt;
         playerBounds.y += dy;
-        if (intersectsSolid(map, playerBounds, ts)) {
+        if (intersectileSizeSolid(map, playerBounds, tileSize)) {
             if (dy > 0) {
-                int tileTop = (int) Math.floor((playerBounds.y + playerBounds.height - 1) / ts);
-                playerBounds.y = tileTop * ts - playerBounds.height;
+                int tileTop = (int) Math.floor((playerBounds.y + playerBounds.height - 1) / tileSize);
+                playerBounds.y = tileTop * tileSize - playerBounds.height;
             } else if (dy < 0) {
-                int tileBottom = (int) Math.floor(playerBounds.y / ts);
-                playerBounds.y = (tileBottom + 1) * ts;
+                int tileBottom = (int) Math.floor(playerBounds.y / tileSize);
+                playerBounds.y = (tileBottom + 1) * tileSize;
             }
         }
 
@@ -41,15 +40,15 @@ public final class Physics {
     }
 
     // Checks for overlap
-    private static boolean intersectsSolid(TileMap map, Rectangle playerBounds, float ts) {
-        int minTX = (int)Math.floor(playerBounds.x / ts);
-        int maxTX = (int)Math.floor((playerBounds.x + playerBounds.width - 1) / ts);
-        int minTY = (int)Math.floor(playerBounds.y / ts);
-        int maxTY = (int)Math.floor((playerBounds.y + playerBounds.height - 1) / ts);
+    private static boolean intersectileSizeSolid(TileMap map, Rectangle playerBounds, float tileSize) {
+        int mintileX = (int)Math.floor(playerBounds.x / tileSize);
+        int maxTileX = (int)Math.floor((playerBounds.x + playerBounds.width - 1) / tileSize);
+        int minTileY = (int)Math.floor(playerBounds.y / tileSize);
+        int maxTileY = (int)Math.floor((playerBounds.y + playerBounds.height - 1) / tileSize);
 
-        for (int ty = minTY; ty <= maxTY; ty++) {
-            for (int tx = minTX; tx <= maxTX; tx++) {
-                if (map.isSolidAt(tx, ty)) { return true; }
+        for (int tileY = minTileY; tileY <= maxTileY; tileY++) {
+            for (int tileX = mintileX; tileX <= maxTileX; tileX++) {
+                if (map.isSolidAt(tileX, tileY)) { return true; }
             }
         }
         return false;
@@ -62,15 +61,32 @@ public final class Physics {
         return coinBounds.overlaps(playerBounds);
     }
 
-    public static boolean trapTriggered(Player player, Trap trap) {
+    public static boolean onTrap(Player player, Trap trap) {
         Rectangle playerBounds = player.getBounds();
         Rectangle trapBounds = trap.getBounds();
 
         return playerBounds.overlaps(trapBounds);
     }
 
+    public static boolean trapTriggered(float cooldown){
+        if (cooldown <= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-
-
-
+    public static boolean onPot(Pot pot, Player player, TileMap map){
+        Rectangle potBounds = pot.getBounds();
+        Rectangle playerBounds = player.getBounds();
+        if (player.getDash() && playerBounds.overlaps(potBounds) && !pot.getBroken()) {
+            pot.potBreak();
+            if (Math.random() > 0.5f) {
+                return true;
+            }
+        } else if (!pot.getBroken() && !player.getDash() && playerBounds.overlaps(potBounds)) {
+            map.getTiles();
+        }
+        return false;
+    }
 }

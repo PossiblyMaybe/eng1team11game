@@ -42,15 +42,17 @@ public class Player implements GameEntity{
      * @return returns the players direction
      */
     public Vector2 getVelocity(boolean up, boolean down, boolean left, boolean right) {
-        float vx = (right ? 1f : 0f) - (left ? 1f : 0f);
-        float vy = (up ? 1f : 0f) - (down ? 1f : 0f);
-        if (vx != 0 || vy != 0) {
-            float lenInv = 1f / (float) Math.sqrt(vx * vx + vy * vy);
-            vx *= SPEED * lenInv;
-            vy *= SPEED * lenInv;
+        float velocityX = (right ? 1f : 0f) - (left ? 1f : 0f);
+        float velocityY = (up ? 1f : 0f) - (down ? 1f : 0f);
+        if (velocityX != 0 || velocityY != 0) {
+            float lengthInverse = 1f / (float) Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+            velocityX *= SPEED * lengthInverse;
+            velocityY *= SPEED * lengthInverse;
         }
-        return new Vector2(vx, vy);
+        return new Vector2(velocityX, velocityY);
     }
+
+    public boolean getDash() { return isDashing; }
 
     @Override
     public TextureRegion getSprite() { return sprite.getTexture(); }

@@ -4,38 +4,36 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-/**
- * The class used for traps
- */
-public class Trap implements GameEntity {
+public class Pot implements GameEntity{
     public final Vector2 position = new Vector2();
-    private final Vector2 scale = new Vector2(1f,1f);
-    private final float rotation = 0;
-    private SpriteSheet sprite = new SpriteSheet("spriteSheet.png", 87);
+    private final Vector2 scale = new Vector2(1,1);
+    private float rotation = 0;
+    private SpriteSheet sprite = new SpriteSheet("testSpriteSheet.png", 8);
     private float height;
     private float width;
-    public float cooldown;
+    private boolean broken;
 
-    /**
-     *
-     * @param x the x coordinate of the trap
-     * @param y the y coordinate of the trap
-     */
-    public Trap(float x, float y) {
-        cooldown = 1.5f;
+    // it's a pot
+
+    public Pot (float x, float y){
         position.x = x;
         position.y = y;
         height = getSprite().getRegionHeight() * scale.y;
-        width = getSprite().getRegionWidth() * scale.x;
-        getSprite().setRegion(16, 32, 16, 16);
+        width = getSprite().getRegionWidth() *  scale.x;
+        getSprite().setRegion(0, 0, 16, 16);
+        broken = false;
     }
 
-    /**
-     *
-     * @return returns the rectangle used in the hitbox of the trap
-     */
     public Rectangle getBounds(){
         return new Rectangle(position.x, position.y, width, height);
+    }
+
+    public boolean getBroken(){
+        return broken;
+    }
+
+    public void potBreak(){
+        broken = false;
     }
 
     @Override
@@ -59,8 +57,5 @@ public class Trap implements GameEntity {
     }
 
     @Override
-    public void dispose(){
-        sprite.dispose();
-    }
-
+    public void dispose(){}
 }

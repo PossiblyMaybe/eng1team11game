@@ -40,6 +40,7 @@ public class EndScreen extends ScreenAdapter {
     }
 
     @Override
+
     public void dispose(){
         if (outcome != null)
             outcome.dispose();

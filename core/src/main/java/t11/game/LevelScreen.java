@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
@@ -18,14 +17,16 @@ import java.util.ArrayList;
 public class LevelScreen extends ScreenAdapter{
     private TileMap tileMap;
     //makes an arraylist for all objects in the scene
-    ArrayList<GameEntity> scene = new ArrayList<GameEntity>();
+    ArrayList<GameEntity> scene = new ArrayList<>();
     private SpriteBatch batch;
     private final OrthographicCamera camera;
+
     private String levelJSON;
     private Player player;
 
     private ArrayList<Coin> coins = new ArrayList<>();
     private ArrayList<Trap> traps = new ArrayList<>();
+    private ArrayList<Pot> pots = new ArrayList<>();
 
     private boolean paused = false;
 
@@ -50,7 +51,7 @@ public class LevelScreen extends ScreenAdapter{
      * @param viewport the viewport is passed through here
      */
 	public LevelScreen(String levelJSON, SpriteBatch batch, Player player,
-                       OrthographicCamera camera, Viewport viewport) {
+                       OrthographicCamera camera) {
         //gets the spritebatch so we only use 1 global batch which will be disposed upon
         //closing the game
         this.batch = batch;
@@ -60,10 +61,10 @@ public class LevelScreen extends ScreenAdapter{
         this.paused = false;
 
 
+
         player.position.set(320 - player.getWidthPixels(), 200);
         parseJSON(levelJSON);
 
-        
         parseJSON(levelJSON);
 	}
 
@@ -119,6 +120,7 @@ public class LevelScreen extends ScreenAdapter{
                     coins.add(new Coin(value.getFloat("x"),value.getFloat("y")));
                     break;
                 case "pot":
+                    pots.add(new Pot(value.getFloat("x"),value.getFloat("y")));
                     break;
                 case "trap":
                     traps.add(new Trap(value.getFloat("x"),value.getFloat("y")));
@@ -127,6 +129,7 @@ public class LevelScreen extends ScreenAdapter{
         }
         scene.addAll(coins);
         scene.addAll(traps);
+        scene.addAll(pots);
     }
 
     /**
@@ -139,9 +142,10 @@ public class LevelScreen extends ScreenAdapter{
         boolean down = Gdx.input.isKeyPressed(Input.Keys.DOWN);
         boolean left = Gdx.input.isKeyPressed(Input.Keys.LEFT);
         boolean right = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
-        Vector2 vel = player.getVelocity(up, down, left, right);
+        Vector2 velocity = player.getVelocity(up, down, left, right);
 
-        Physics.moveWithTileCollisions(player, tileMap, delta, vel.x, vel.y);
+        Physics.moveWithTileCollisions(player, tileMap, delta, velocity.x, velocity.y);
+
     }
 
 
@@ -150,7 +154,6 @@ public class LevelScreen extends ScreenAdapter{
     public void show() {
         scene.add(player);
         draw();
-
     }
 
     @Override
@@ -173,6 +176,7 @@ public class LevelScreen extends ScreenAdapter{
     public void draw(){
         batch.begin();
 
+
         for (Tile[] tileRow: tileMap.getTiles()){
             for (Tile tile: tileRow){
                 if (tile.getSprite() != null){
@@ -188,8 +192,44 @@ public class LevelScreen extends ScreenAdapter{
 
     }
 
+    public void spawnCoin(float x, float y){
+     	Coin newcoin = new Coin(x,y);
+	scene.add(newcoin);
+	coins.add(newcoin);
+    }
+
     public void physics(float delta){
         update(delta);
+
+        for (Coin  coin: coins) {
+            if (Physics.coinCollision(player, coin)) {
+                scene.remove(coin);
+                if (!coin.collected) {
+                    coin.collected = true;
+                    Main.coinCount++;
+                }
+            }
+        }
+
+
+        for (Trap trap: traps) {
+            if (Physics.onTrap(player, trap)) {
+                System.out.println(trap.cooldown);
+                trap.cooldown -= delta;
+                if (Physics.trapTriggered(trap.cooldown)){
+                    player.position.set(300, 220);
+                    trap.cooldown = 1.5f;
+                    Main.trapsTriggered++;
+                }
+            } else { trap.cooldown = 1.5f; }
+        }
+
+
+        for (Pot pot : pots) {
+            if (Physics.onPot(pot, player, tileMap)) {
+                spawnCoin(pot.getPos().x, pot.getPos().y);
+            }
+        }
 
         if (player.position.x < 0){
             player.position.x = 599;
@@ -224,4 +264,3 @@ public class LevelScreen extends ScreenAdapter{
 
 
 }
-
