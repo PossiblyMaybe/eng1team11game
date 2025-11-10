@@ -227,7 +227,10 @@ public class LevelScreen extends ScreenAdapter{
 
         for (Pot pot : pots) {
             if (Physics.onPot(pot, player, tileMap)) {
-                spawnCoin(pot.getPos().x, pot.getPos().y);
+                Main.potsBroken++;
+                if (Math.random() < 0.5f) {
+                    spawnCoin(pot.getPos().x, pot.getPos().y);
+                }
             }
         }
 

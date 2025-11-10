@@ -70,6 +70,10 @@ public class TileMap {
         return tiles;
     }
 
+    public void setTileSolid(boolean solid, int x, int y){
+        tiles[x][y].setSolid(solid);
+    }
+
     /**
      * Checks if the tile is solid
      * @param tileX the x value of the tile in the tilemap (not the x in pixels)

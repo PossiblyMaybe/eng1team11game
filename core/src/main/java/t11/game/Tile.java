@@ -25,6 +25,10 @@ public class Tile {
         position.y = y;
     }
 
+    public void setSolid(boolean solid){
+        this.isSolid = !isSolid;
+    }
+
     public Vector2 getPos(){
         return position;
     }

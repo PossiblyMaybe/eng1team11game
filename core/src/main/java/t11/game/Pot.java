@@ -6,9 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Pot implements GameEntity{
     public final Vector2 position = new Vector2();
-    private final Vector2 scale = new Vector2(1,1);
+    private final Vector2 scale = new Vector2(2.5f,2.5f);
     private float rotation = 0;
-    private SpriteSheet sprite = new SpriteSheet("testSpriteSheet.png", 8);
+    private SpriteSheet sprite = new SpriteSheet("entities.png", 8);
     private float height;
     private float width;
     private boolean broken;
@@ -20,7 +20,7 @@ public class Pot implements GameEntity{
         position.y = y;
         height = getSprite().getRegionHeight() * scale.y;
         width = getSprite().getRegionWidth() *  scale.x;
-        getSprite().setRegion(0, 0, 16, 16);
+        sprite.setFrame(3);
         broken = false;
     }
 
@@ -33,7 +33,8 @@ public class Pot implements GameEntity{
     }
 
     public void potBreak(){
-        broken = false;
+        sprite.setFrame(4);
+        broken = true;
     }
 
     @Override
