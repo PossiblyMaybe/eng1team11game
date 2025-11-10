@@ -16,6 +16,11 @@ public class EndScreen extends ScreenAdapter {
 
     private Texture outcome;
 
+    /**
+     *
+     * @param batch the SpriteBatch passed from main
+     * @param font the BitmapFont passed from main
+     */
     public EndScreen(SpriteBatch batch, BitmapFont font){
         this.batch = batch;
         this.font = font;
