@@ -1,9 +1,6 @@
 package t11.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TileMap {
     private Tile[][] tiles;
@@ -59,6 +56,10 @@ public class TileMap {
 
     public Tile[][] getTiles(){
         return tiles;
+    }
+
+    public void setTileSolid(boolean solid, int x, int y){
+        tiles[x][y].setSolid(solid);
     }
 
     public boolean isSolidAt(int tileX, int tileY) {

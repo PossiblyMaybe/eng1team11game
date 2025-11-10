@@ -1,6 +1,7 @@
 package t11.game;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public final class Physics {
     private Physics() {}
@@ -79,14 +80,16 @@ public final class Physics {
     public static boolean onPot(Pot pot, Player player, TileMap map){
         Rectangle potBounds = pot.getBounds();
         Rectangle playerBounds = player.getBounds();
+        Vector2 potPos =  new Vector2();
+        potBounds.getPosition(potPos);
         if (player.getDash() && playerBounds.overlaps(potBounds) && !pot.getBroken()) {
+            map.setTileSolid(false, (int)(potPos.x / 40), (int)(potPos.y / 40));
             pot.potBreak();
-            if (Math.random() > 0.5f) {
-                return true;
-            }
-        } else if (!pot.getBroken() && !player.getDash() && playerBounds.overlaps(potBounds)) {
-            map.getTiles();
+            return true;
+        } else if (!pot.getBroken() && !player.getDash()) {
+            map.setTileSolid(true, (int)(potPos.x / 40), (int)(potPos.y / 40));
         }
         return false;
+
     }
 }

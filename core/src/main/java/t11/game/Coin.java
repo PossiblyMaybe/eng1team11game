@@ -6,9 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Coin implements GameEntity{
     public final Vector2 position = new Vector2();
-    private final Vector2 scale = new Vector2(1,1);
+    private final Vector2 scale = new Vector2(2,2);
     private float rotation = 0;
-    private SpriteSheet sprite = new SpriteSheet("spriteSheet.png", 8);
+    private SpriteSheet sprite = new SpriteSheet("entities.png", 8);
     private float height;
     private float width;
     public boolean collected;
@@ -19,7 +19,9 @@ public class Coin implements GameEntity{
         position.y = y;
         height = getSprite().getRegionHeight() * scale.y;
         width = getSprite().getRegionWidth() *  scale.x;
-        getSprite().setRegion(32, 0, 16, 16);
+        sprite.setFrame(2);
+
+        //getSprite().setRegion(32, 0, 16, 16);
         collected = false;
     }
 
