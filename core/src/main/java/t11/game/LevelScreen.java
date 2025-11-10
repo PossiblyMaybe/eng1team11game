@@ -174,6 +174,12 @@ public class LevelScreen extends ScreenAdapter{
 
     }
 
+    public void spawnCoin(float x, float y){
+     	Coin newcoin = new Coin(x,y);
+	scene.add(newcoin);
+	coins.add(newcoin);
+    }
+
     public void physics(float delta){
         update(delta);
 
@@ -210,4 +216,3 @@ public class LevelScreen extends ScreenAdapter{
 
 
 }
-
