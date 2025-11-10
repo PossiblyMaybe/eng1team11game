@@ -24,8 +24,8 @@ public class Main extends Game {
 
 
     // Window size constants
-    private static final float WINDOW_WIDTH = 640;
-    private static final float WINDOW_HEIGHT = 480;
+    private final float WINDOW_WIDTH = 640;
+    private final float WINDOW_HEIGHT = 480;
 
 	public ScreenDispatch screens;
 
@@ -35,6 +35,9 @@ public class Main extends Game {
     public static int potsBroken = 0;
     public static int trapsTriggered = 0;
     public static float timeRemaining = 300;
+
+    public static boolean nextRoom;
+    public static boolean lastRoom;
 
     public Player player;
     private Texture clock;
@@ -51,7 +54,6 @@ public class Main extends Game {
         //drawing stuff definitions
         batch = new SpriteBatch();
         font = new BitmapFont();
-
         // Window stuff
         camera = new OrthographicCamera();
         viewport = new FitViewport(WINDOW_WIDTH, WINDOW_HEIGHT, camera);
@@ -67,9 +69,9 @@ public class Main extends Game {
         pausedGUI = new Texture("paused.png");
 
         //Adds screens to the screens list. Currently hardcoded
-        screens = new ScreenDispatch(new LevelScreen("levelJ0.json", batch, player, camera, viewport));
-        screens.addScreen(new LevelScreen("levelJ1.json", batch, player, camera, viewport));
-        screens.addScreen(new LevelScreen("levelJ2.json", batch, player, camera, viewport));
+        screens = new ScreenDispatch(new LevelScreen("levelJ0.json", batch, player, camera));
+        screens.addScreen(new LevelScreen("levelJ1.json", batch, player, camera));
+        screens.addScreen(new LevelScreen("levelJ2.json", batch, player, camera));
         screens.addScreen(new EndScreen(batch, font));
 
         setScreen(screens.getScreen());
@@ -180,6 +182,12 @@ public class Main extends Game {
         /*Deals with timer related logic, like decrementing time by deltaTime each frame and ending the game if you run out of time */
         if (!paused && !gameOver) //decrements time
             timeRemaining -= Gdx.graphics.getDeltaTime();
+
+        if (nextRoom){
+            screens.toNextScreen();
+            setScreen(screens.getScreen());
+            nextRoom = false;
+        }
 
         if (timeRemaining < 0){ //ends the game if you run out of time
             screens.goToLast();

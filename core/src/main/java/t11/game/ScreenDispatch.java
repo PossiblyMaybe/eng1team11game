@@ -32,6 +32,7 @@ public class ScreenDispatch {
 		return gotoScreen(currentIndex + 1);
 	}
 
+
     public void goToLast(){
         /*Goes to the last screen */
         gotoScreen(screens.size() -1);
