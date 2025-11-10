@@ -82,10 +82,13 @@ public final class Physics {
         Rectangle playerBounds = player.getBounds();
         Vector2 potPos =  new Vector2();
         potBounds.getPosition(potPos);
+
         if (player.getDash() && playerBounds.overlaps(potBounds) && !pot.getBroken()) {
             map.setTileSolid(false, (int)(potPos.x / 40), (int)(potPos.y / 40));
             pot.potBreak();
             return true;
+        } else if (pot.getBroken()) {
+            return false;
         } else if (!pot.getBroken() && !player.getDash()) {
             map.setTileSolid(true, (int)(potPos.x / 40), (int)(potPos.y / 40));
         }

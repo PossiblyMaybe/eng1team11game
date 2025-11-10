@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Trap implements GameEntity {
     public final Vector2 position = new Vector2();
-    private final Vector2 scale = new Vector2(1f,1f);
+    private final Vector2 scale = new Vector2(2.5f,2.5f);
     private final float rotation = 0;
     private SpriteSheet sprite = new SpriteSheet("spriteSheet.png", 87);
     private float height;
@@ -22,12 +22,12 @@ public class Trap implements GameEntity {
      * @param y the y coordinate of the trap
      */
     public Trap(float x, float y) {
-        cooldown = 1.5f;
+        cooldown = 1f;
         position.x = x;
         position.y = y;
         height = getSprite().getRegionHeight() * scale.y;
         width = getSprite().getRegionWidth() * scale.x;
-        getSprite().setRegion(16, 32, 16, 16);
+        sprite.setFrame(5);
     }
 
     /**

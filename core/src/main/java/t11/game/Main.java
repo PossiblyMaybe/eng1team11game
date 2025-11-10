@@ -36,7 +36,6 @@ public class Main extends Game {
     public static float timeRemaining = 300;
 
     public static boolean nextRoom;
-    public static boolean lastRoom;
 
     public Player player;
     private Texture clock;

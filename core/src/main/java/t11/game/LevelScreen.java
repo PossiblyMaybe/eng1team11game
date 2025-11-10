@@ -48,7 +48,6 @@ public class LevelScreen extends ScreenAdapter{
      * @param batch the spriteBatch used in main is passed through here
      * @param player the player is passed through here
      * @param camera the camera is passed through here
-     * @param viewport the viewport is passed through here
      */
 	public LevelScreen(String levelJSON, SpriteBatch batch, Player player,
                        OrthographicCamera camera) {
@@ -63,8 +62,6 @@ public class LevelScreen extends ScreenAdapter{
 
 
         player.position.set(320 - player.getWidthPixels(), 200);
-        parseJSON(levelJSON);
-
         parseJSON(levelJSON);
 	}
 
@@ -214,14 +211,13 @@ public class LevelScreen extends ScreenAdapter{
 
         for (Trap trap: traps) {
             if (Physics.onTrap(player, trap)) {
-                System.out.println(trap.cooldown);
                 trap.cooldown -= delta;
                 if (Physics.trapTriggered(trap.cooldown)){
-                    player.position.set(300, 220);
-                    trap.cooldown = 1.5f;
+                    player.position.set(originX, originY);
+                    trap.cooldown = 1f;
                     Main.trapsTriggered++;
                 }
-            } else { trap.cooldown = 1.5f; }
+            } else { trap.cooldown = 1f; }
         }
 
 
@@ -256,13 +252,11 @@ public class LevelScreen extends ScreenAdapter{
     @Override
     public void pause(){
         paused = true;
-        System.out.println("Paused");
     }
 
     @Override
     public void resume(){
         paused = false;
-        System.out.println("Unpaused");
     }
 
 
