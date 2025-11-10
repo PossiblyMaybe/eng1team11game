@@ -1,10 +1,12 @@
 package t11.game;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * The class used for traps
+ */
 public class Trap implements GameEntity {
     public final Vector2 position = new Vector2();
     private final Vector2 scale = new Vector2(1f,1f);
@@ -13,6 +15,11 @@ public class Trap implements GameEntity {
     private float height;
     private float width;
 
+    /**
+     *
+     * @param x the x coordinate of the trap
+     * @param y the y coordinate of the trap
+     */
     public Trap(float x, float y) {
         position.x = x;
         position.y = y;
@@ -21,6 +28,10 @@ public class Trap implements GameEntity {
         getSprite().setRegion(16, 32, 16, 16);
     }
 
+    /**
+     *
+     * @return returns the rectangle used in the hitbox of the trap
+     */
     public Rectangle getBounds(){
         return new Rectangle(position.x, position.y, width, height);
     }

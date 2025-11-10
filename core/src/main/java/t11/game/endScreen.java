@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * This is the win or lose screen which is triggered by getting to the end of the maze,
+ * or run out of time.
+ */
 public class endScreen extends ScreenAdapter {
-
-
     private SpriteBatch batch;
     private BitmapFont font;
     private int score;
@@ -39,10 +41,7 @@ public class endScreen extends ScreenAdapter {
 
     @Override
     public void dispose(){
-        outcome.dispose();
-    }
-
-    public void restart(){
-        /*Currently empty, but it's here if anyone wants to add a way to restart the game once it ends */
+        if (outcome != null)
+            outcome.dispose();
     }
 }

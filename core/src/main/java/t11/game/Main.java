@@ -11,11 +11,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+/**
+ * Main class for the game, this gets run by libgdx core immediately when game is run.
+ */
 public class Main extends Game {
-
-    //I reimplemented SpriteBatch since SpriteCache is a pain, and we aren't drawing enough sprites
-    //on the screen to warrant needing SpriteCache. If we had a large open world it would make sense,
-    //but not if we are only drawing one screen at a time
     public SpriteBatch batch;
     public BitmapFont font;
 
@@ -47,7 +46,6 @@ public class Main extends Game {
 
     @Override
 	public void create() {
-        /*Called when the game starts */
         //drawing stuff definitions
         batch = new SpriteBatch();
         font = new BitmapFont();
@@ -115,11 +113,12 @@ public class Main extends Game {
         clock.dispose();
         guiPiece.dispose();
         pausedGUI.dispose();
+        screens.dispose();
     }
-
+    /**
+     * Checks for the movement keys (Up, down, left and right) and for the space bar and escape key
+     * */
     public void input() {
-        /*Checks for the movement keys (Up, down, left and right) and for the space bar and escape key */
-
         //direction the player is moving
         Vector2 direction = new Vector2(0,0);
 
@@ -148,9 +147,11 @@ public class Main extends Game {
         }
 
     }
-
+    /**
+     * Draws gui elements like the timer, pause menu and the event counters
+     * */
     public void guiDraw(){
-        /*Draws gui elements like the timer, pause menu and the event counters */
+
         batch.begin();
         //draw gui elements here
         batch.draw(guiPiece, 0, 448, 32*6, 16*2);
@@ -176,8 +177,12 @@ public class Main extends Game {
         batch.end();
     }
 
+    /**
+     * Deals with timer related logic, like decrementing time by deltaTime each frame and
+     * ending the game if you run out of time
+    * */
     public void logic(){
-        /*Deals with timer related logic, like decrementing time by deltaTime each frame and ending the game if you run out of time */
+
         if (!paused && !gameOver) //decrements time
             timeRemaining -= Gdx.graphics.getDeltaTime();
 
@@ -189,8 +194,11 @@ public class Main extends Game {
         }
     }
 
+    /**
+     * Checks to see if LevelScreen wants to change screen because the player went off-screen
+    * */
     public void roomChangeCheck(){
-        /*Checks to see if LevelScreen wants to change screen because the player went off-screen*/
+
         if (LevelScreen.roomTarget != -1){
             screens.gotoScreen(LevelScreen.roomTarget);
             setScreen(screens.getScreen());
