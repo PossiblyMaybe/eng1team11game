@@ -9,7 +9,7 @@ public class Trap implements GameEntity {
     public final Vector2 position = new Vector2();
     private final Vector2 scale = new Vector2(1f,1f);
     private final float rotation = 0;
-    private SpriteSheet sprite = new SpriteSheet("testSpriteSheet.png", 8);
+    private SpriteSheet sprite = new SpriteSheet("spriteSheet.png", 87);
     private float height;
     private float width;
     public float cooldown;
@@ -45,6 +45,11 @@ public class Trap implements GameEntity {
     @Override
     public float getRotation() {
         return rotation;
+    }
+
+    @Override
+    public void dispose(){
+        sprite.dispose();
     }
 
 }

@@ -8,12 +8,11 @@ public class Coin implements GameEntity{
     public final Vector2 position = new Vector2();
     private final Vector2 scale = new Vector2(1,1);
     private float rotation = 0;
-    private SpriteSheet sprite = new SpriteSheet("testSpriteSheet.png", 8);
+    private SpriteSheet sprite = new SpriteSheet("spriteSheet.png", 8);
     private float height;
     private float width;
     public boolean collected;
 
-    //it's a coin :)
 
     public Coin(float x, float y){
         position.x = x;
@@ -46,5 +45,10 @@ public class Coin implements GameEntity{
     @Override
     public float getRotation() {
         return rotation;
+    }
+
+    @Override
+    public void dispose(){
+        sprite.dispose();
     }
 }

@@ -55,4 +55,7 @@ public class Pot implements GameEntity{
     public float getRotation() {
         return rotation;
     }
+
+    @Override
+    public void dispose(){}
 }

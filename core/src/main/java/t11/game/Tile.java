@@ -30,6 +30,6 @@ public class Tile {
     }
 
     public void dispose() {
-        //texture region doesn't have a dispose method so idk what to put here
+
     }
 }

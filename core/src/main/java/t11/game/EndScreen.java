@@ -1,54 +1,49 @@
 package t11.game;
 
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class EndScreen extends ScreenAdapter{
-    SpriteBatch batch = new SpriteBatch();
-    public static Boolean win = true;
-    OrthographicCamera camera;
-    Viewport viewport;
+public class EndScreen extends ScreenAdapter {
 
-    public EndScreen(OrthographicCamera camera, Viewport viewport) {
-        this.camera = camera;
-        this.viewport = viewport;
+
+    private SpriteBatch batch;
+    private BitmapFont font;
+    private int score;
+
+    private Texture outcome;
+
+    public EndScreen(SpriteBatch batch, BitmapFont font){
+        this.batch = batch;
+        this.font = font;
     }
 
+    @Override
+    public void render(float delta){
+        batch.begin();
+        font.draw(batch, "Score = ".concat(Integer.toString(score)), 265, 200);
+        batch.draw(outcome, 240, 200, 160, 160);
+        batch.end();
+    }
 
     @Override
-    public void render(float delta) {
-        ScreenUtils.clear(Color.BLACK);
-
-        viewport.apply();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-
-        if (win) {
-            ScreenUtils.clear(Color.GREEN);
+    public void show(){
+        score = (int) (Main.timeRemaining * 100 + Main.coinCount * 10);
+        if (Main.timeRemaining < 0) {
+            outcome = new Texture("LOSE.png");
         } else {
-            ScreenUtils.clear(Color.RED);
+            outcome = new Texture("WIN.png");
         }
     }
 
     @Override
-    public void resize(int width, int height) { viewport.update(width, height, true);
+
+    public void dispose(){
+        outcome.dispose();
     }
 
-    @Override
-    public void show() {}
-
-    @Override
-    public void hide() {}
-
-    @Override
-    public void pause() {}
-
-    @Override
-    public void resume() {}
-
-    @Override
-    public void dispose() {}
+    public void restart(){
+        /*Currently empty, but it's here if anyone wants to add a way to restart the game once it ends */
+    }
 }
