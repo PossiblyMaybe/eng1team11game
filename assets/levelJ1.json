@@ -8,8 +8,8 @@
       "roomTargetRight": 2,
       "roomTargetDown": -1,
       "roomTargetLeft": 0,
-      "originX": 300,
-      "originY": 220
+      "originX": 0,
+      "originY": 200
     },
   "levelObjects": [
     {
@@ -21,6 +21,11 @@
       "type": "pot",
       "x": 320,
       "y": 160
+    },
+    {
+      "type": "trap",
+      "x": 480,
+      "y": 240
     }
   ]
 }
