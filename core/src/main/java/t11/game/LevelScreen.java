@@ -11,10 +11,10 @@ import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.ArrayList;
 
-
+/**
+ * The main screen class used in the game, it is used for all the levels and reads JSON files to create them
+ */
 public class LevelScreen extends ScreenAdapter{
-
-    //public boolean paused = false;
     private TileMap tileMap;
     //makes an arraylist for all objects in the scene
     ArrayList<GameEntity> scene = new ArrayList<>();
@@ -42,7 +42,14 @@ public class LevelScreen extends ScreenAdapter{
     private float originY;
 
 
-
+    /**
+     *
+     * @param levelJSON this is a path to the JSON file in assets used to create the level
+     * @param batch the spriteBatch used in main is passed through here
+     * @param player the player is passed through here
+     * @param camera the camera is passed through here
+     * @param viewport the viewport is passed through here
+     */
 	public LevelScreen(String levelJSON, SpriteBatch batch, Player player,
                        OrthographicCamera camera) {
         //gets the spritebatch so we only use 1 global batch which will be disposed upon
@@ -56,10 +63,15 @@ public class LevelScreen extends ScreenAdapter{
 
 
         player.position.set(320 - player.getWidthPixels(), 200);
+        parseJSON(levelJSON);
 
         parseJSON(levelJSON);
 	}
 
+    /**
+     * Parses the JSON file for the level and creates a tileset, spritesheet and list of gameEntities
+     * @param levelJSON the level JSON is passed here to be parsed
+     */
     private void parseJSON(String levelJSON){
         /*Parses the information from the JSON file given to it in this order:
         {"tileMapInfo" :
@@ -120,8 +132,12 @@ public class LevelScreen extends ScreenAdapter{
         scene.addAll(pots);
     }
 
+    /**
+     * Checks for inputs to deal with movement physics
+     * @param delta deltaTime is passed through here
+     * */
     private void update(float delta) {
-        /*Checks for inputs to deal with movement physics */
+
         boolean up = Gdx.input.isKeyPressed(Input.Keys.UP);
         boolean down = Gdx.input.isKeyPressed(Input.Keys.DOWN);
         boolean left = Gdx.input.isKeyPressed(Input.Keys.LEFT);
@@ -142,6 +158,7 @@ public class LevelScreen extends ScreenAdapter{
 
     @Override
     public void dispose(){
+        tileMap.dispose();
         for (GameEntity obj: scene){
             if (!(obj instanceof Player))
                 obj.dispose();

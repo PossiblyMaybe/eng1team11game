@@ -2,6 +2,9 @@ package t11.game;
 
 import com.badlogic.gdx.Gdx;
 
+/**
+ * The class that holds the entire tilemap for a level
+ */
 public class TileMap {
     private Tile[][] tiles;
     private int width;
@@ -13,13 +16,22 @@ public class TileMap {
     public int getHeightTiles() { return height; }
     public int getTileSize() { return TILE_SIZE; }
 
+    /**
+     *
+     * @param filePath the csv file path used to draw the tilemap
+     * @param spriteSheetPath the sprite sheet path used in drawing the tilemap
+     * @param endFrame the last frame of the sprite sheet
+     */
     public TileMap(String filePath, String spriteSheetPath, int endFrame) {
         this.spriteSheet = new SpriteSheet(spriteSheetPath, endFrame);
         this.load(filePath);
     }
 
+    /**
+     * Loads all the tiles from the csv file and places them in a 2d array of tiles
+     * @param filePath the csv file path
+     */
     private void load(String filePath) {
-        /*creates a list of lines and assigns the height, width and array size for tile */
         String fileData = Gdx.files.internal(filePath).readString().trim();
         String[] lines = fileData.split("\\r?\\n");
         this.height = lines.length;
@@ -62,6 +74,12 @@ public class TileMap {
         tiles[x][y].setSolid(solid);
     }
 
+    /**
+     * Checks if the tile is solid
+     * @param tileX the x value of the tile in the tilemap (not the x in pixels)
+     * @param tileY the y value of the tile in the tilemap (not the y in pixels)
+     * @return returns true or false depending on if the tile is solid
+     */
     public boolean isSolidAt(int tileX, int tileY) {
         /*Checks if the current tile is solid for physics checks */
         if (tileX >= 0 && tileY >= 0 && tileX < this.width && tileY < this.height) {
@@ -70,5 +88,12 @@ public class TileMap {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Disposes of the sprite sheet used in the tilemap
+     */
+    public void dispose(){
+        spriteSheet.dispose();
     }
 }
