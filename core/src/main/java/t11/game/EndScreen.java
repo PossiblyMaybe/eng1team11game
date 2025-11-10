@@ -1,25 +1,19 @@
 package t11.game;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class MenuScreen extends ScreenAdapter{
+public class EndScreen extends ScreenAdapter{
     SpriteBatch batch = new SpriteBatch();
-    Boolean menuDone = false;
+    public static Boolean win = true;
     OrthographicCamera camera;
     Viewport viewport;
 
-    public MenuScreen(OrthographicCamera camera, Viewport viewport, BitmapFont font) {
+    public EndScreen(OrthographicCamera camera, Viewport viewport) {
         this.camera = camera;
         this.viewport = viewport;
     }
@@ -32,16 +26,10 @@ public class MenuScreen extends ScreenAdapter{
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
 
-        batch.begin();
-
-//       Main.font.draw(batch, "ESCAPE FROM UNI", 250, 350);
-//        Main.font.draw(batch, "Tap anywhere to begin!", 245, 300);
-
-        batch.end();
-
-        if (Gdx.input.isTouched()) {
-            dispose();
-            menuDone = true;
+        if (win) {
+            ScreenUtils.clear(Color.GREEN);
+        } else {
+            ScreenUtils.clear(Color.RED);
         }
     }
 

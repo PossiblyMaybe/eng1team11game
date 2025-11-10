@@ -5,5 +5,31 @@
       "spriteSheetPath": "testSpriteSheet.png",
       "endFrame": 8
     },
-  "levelObjects": []
+  "levelObjects": [
+    {
+      "type": "coin",
+      "x": 200,
+      "y": 100
+    },
+    {
+      "type": "coin",
+      "x": 400,
+      "y": 300
+    },
+    {
+      "type": "trap",
+      "x": 200,
+      "y": 320
+    },
+    {
+      "type": "trap",
+      "x": 80,
+      "y": 200
+    },
+    {
+      "type": "pot",
+      "x": 120,
+      "y": 200
+    }
+  ]
 }

@@ -32,6 +32,15 @@ public class ScreenDispatch {
 		return screens.get(currentIndex);
 	}
 
+    public Screen toLastScreen(){
+        if (currentIndex - 1 >= 0){
+            return screens.get(currentIndex - 1);
+        }
+        screens.get(currentIndex).dispose();
+        currentIndex--;
+        return screens.get(currentIndex);
+    }
+
     public boolean gotoScreen(int index){
         if (index < 0 || index >= size)
             return false;

@@ -3,19 +3,13 @@ package t11.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
-import java.util.ArrayList;
-import java.util.logging.Level;
 
 public class Main extends Game {
 
@@ -27,20 +21,23 @@ public class Main extends Game {
 
     private OrthographicCamera camera;
     private FitViewport viewport;
-   
+
 
     // Window size constants
-    private static final float WINDOW_WIDTH = 640;
-    private static final float WINDOW_HEIGHT = 480;
+    private final float WINDOW_WIDTH = 640;
+    private final float WINDOW_HEIGHT = 480;
 
 	public ScreenDispatch screens;
 
     //Variables for the timer coins and score, they are currently unused
-    private int coinCount;
-    private int potsBroken;
-    private int trapsTriggered;
+    public static int coinCount;
+    public static int potsBroken;
+    public static int trapsTriggered;
     public int score;
     public float timeRemaining = 300;
+
+    public static boolean nextRoom;
+    public static boolean lastRoom;
 
     public Player player;
     private Texture clock;
@@ -55,6 +52,8 @@ public class Main extends Game {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
+        nextRoom = false;
+        lastRoom = false;
 
         // Creates the orthographic camera and viewport
         camera = new OrthographicCamera();
@@ -67,14 +66,11 @@ public class Main extends Game {
         player = new Player();
         clock = new Texture("Clock.png");
         guiPiece = new Texture("gui piece.png");
-        
 
-        screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player, camera, viewport));
 
+        screens = new ScreenDispatch(new LevelScreen("testJ.json", batch, player, camera));
+        screens.addScreen(new EndScreen(camera, viewport));
         setScreen(screens.getScreen());
-
-        //
-
 	}
 
     @Override
@@ -110,7 +106,7 @@ public class Main extends Game {
 
     public void input() {
 
-       
+
         //This grabs the input for the player, currently it checks for
         //the arrow keys and the space bar
         Vector2 direction = new Vector2(0,0);
@@ -160,6 +156,17 @@ public class Main extends Game {
     public void logic(){
         if (!paused)
             timeRemaining -= Gdx.graphics.getDeltaTime();
+        if (timeRemaining <= 0) {EndScreen.win = false;}
+        if (nextRoom){
+            screens.toNextScreen();
+            setScreen(screens.getScreen());
+            nextRoom = false;
+        }
+        if (lastRoom){
+            screens.toLastScreen();
+            setScreen(screens.getScreen());
+            lastRoom = false;
+        }
 
     }
 
