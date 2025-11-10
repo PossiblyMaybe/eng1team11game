@@ -45,7 +45,7 @@ public class ScreenDispatch {
 	}
 
     /**
-     * Goes to the last screen (which should be endScreen)
+     * Goes to the last screen (which should be EndScreen)
      */
     public void goToLast(){
         gotoScreen(screens.size() -1);

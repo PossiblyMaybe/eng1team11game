@@ -9,14 +9,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * This is the win or lose screen which is triggered by getting to the end of the maze,
  * or run out of time.
  */
-public class endScreen extends ScreenAdapter {
+public class EndScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private BitmapFont font;
     private int score;
 
     private Texture outcome;
 
-    public endScreen(SpriteBatch batch, BitmapFont font){
+    public EndScreen(SpriteBatch batch, BitmapFont font){
         this.batch = batch;
         this.font = font;
     }

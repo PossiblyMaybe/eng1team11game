@@ -11,5 +11,11 @@
       "originX": 300,
       "originY": 220
     },
-  "levelObjects": []
+  "levelObjects": [
+    {
+      "type": "coin",
+      "x":400,
+      "y":220
+    }
+  ]
 }

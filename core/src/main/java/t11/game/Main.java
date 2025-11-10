@@ -68,7 +68,7 @@ public class Main extends Game {
         screens = new ScreenDispatch(new LevelScreen("levelJ0.json", batch, player, camera, viewport));
         screens.addScreen(new LevelScreen("levelJ1.json", batch, player, camera, viewport));
         screens.addScreen(new LevelScreen("levelJ2.json", batch, player, camera, viewport));
-        screens.addScreen(new endScreen(batch, font));
+        screens.addScreen(new EndScreen(batch, font));
 
         setScreen(screens.getScreen());
 

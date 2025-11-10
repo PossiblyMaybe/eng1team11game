@@ -63,6 +63,8 @@ public class LevelScreen extends ScreenAdapter{
         player.position.set(320 - player.getWidthPixels(), 200);
         parseJSON(levelJSON);
 
+        
+        parseJSON(levelJSON);
 	}
 
     /**

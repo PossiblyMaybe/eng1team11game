@@ -4,6 +4,44 @@ A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://git
 
 This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
 
+
+## Links
+### PDFs:
+- [Requirements](https://drive.google.com/open?id=1YRm9ibuXdxPoXoQ9FpuN6CCZU18TGqme&usp=drive_copy)
+- [Architecture]()
+- [Method Selection and Planning](https://drive.google.com/open?id=1-ZwqyeLFDMuxPolpbPpPfbenKGEcH6Q7&usp=drive_copy)
+- [Risk Assessment and Mitigation](https://drive.google.com/open?id=1w7KW20eSDxNYc-xmj-bfqXltp_giHH6S&usp=drive_copy)
+- [Implementation]()
+### Executable JAR:
+- [ExcapeFromUniJAR]()
+### Version Control Repository:
+- [Repository](https://github.com/PossiblyMaybe/eng1team11game)
+
+## Plan
+### Week 1 plan
+![Week 1 Project Plan](https://github.com/PossiblyMaybe/eng1team11game/tree/main/Week%20plan%20images/Week1Plan.jpg)
+
+The initial plan allows one week for each phase of the project. 
+
+### Week 2 plan
+![Week 2 Project Plan](https://github.com/PossiblyMaybe/eng1team11game/tree/main/Week%20plan%20images/Week2Plan.jpg)
+
+The website set up took less time than expected so the Method Selection and Planning phase began earlier, giving us more time before the deadline in case of delays in later stages. 
+
+### Week 3-5 plan
+The plan remained the same during these weeks. 
+
+### Week 6 plan
+![Week 6 Project Plan](https://github.com/PossiblyMaybe/eng1team11game/tree/main/Week%20plan%20images/Week6Plan.jpg)
+
+Implementation took longer than initially planned, but due to the previous edit of the plan there was enough time to accommodate for this. 
+
+## Additional Content
+### Risk Assessment
+Risk Register:
+
+![Risk Register](https://github.com/PossiblyMaybe/eng1team11game/tree/main/Week%20plan%20images/RiskRegister.png)
+
 ## Platforms
 
 - `core`: Main module with the application logic shared by all platforms.
